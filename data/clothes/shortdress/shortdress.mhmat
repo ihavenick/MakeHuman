@@ -1,0 +1,28 @@
+# Material definition for MakeHuman short dress
+
+name ShortDressMaterial
+
+// Color shading attributes
+ambientColor 1.0 1.0 1.0
+diffuseColor 0.8000 0.7019 0.0319
+diffuseIntensity 0.8
+specularColor 1.0 1.0 1.0
+specularIntensity 0
+opacity 1.0
+
+// Textures and properties
+diffuseTexture shortdress_texture.png
+transparencymapTexture shortdress_mask.png
+transparencymapIntensity 1.0
+
+// Shader programme
+shader data/shaders/glsl/phong
+
+// Configure built-in shader defines
+shaderConfig diffuse true
+shaderConfig bump false
+shaderConfig normal false
+shaderConfig displacement false
+shaderConfig spec false
+shaderConfig vertexColors true
+

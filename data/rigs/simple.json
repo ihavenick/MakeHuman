@@ -1,0 +1,13 @@
+{
+    "name" : "Simple",
+
+    "description" :
+        "A simple rig with connecting bones.",
+
+    "settings" : {
+        "mergePalms" : true,
+        "addConnectingBones" : false
+    }
+}
+
+

@@ -1,0 +1,32 @@
+# Material definition for MakeHuman long dress
+
+name LongDressMaterial
+
+// Color shading attributes
+ambientColor 1.0 1.0 1.0
+diffuseColor 0.8275 0.8275 0.8275
+diffuseIntensity 0.8
+specularColor 1.0 1.0 1.0
+specularIntensity 0.9556
+opacity 1.0
+
+// Textures and properties
+diffuseTexture stockings_texture.png
+transparencymapTexture stockings_mask.png
+transparencymapIntensity 1.0
+
+// Shader programme
+shader data/shaders/glsl/phong
+
+// Configure built-in shader defines
+shaderConfig diffuse true
+shaderConfig bump false
+shaderConfig normal false
+shaderConfig displacement false
+shaderConfig spec false
+shaderConfig vertexColors true
+
+// Unused blender-specific parameters:
+//diffuse_shader LAMBERT
+//specular_shader COOKTORR
+

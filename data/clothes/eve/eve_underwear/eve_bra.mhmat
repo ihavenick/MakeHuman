@@ -1,0 +1,25 @@
+# Material definition for MakeHuman eve bra
+
+name Eve_BraMaterial
+
+// Color shading attributes
+ambientColor 1.0 1.0 1.0
+diffuseColor 0.8006 0.8006 0.8006
+diffuseIntensity 0.8
+specularColor 1.0 1.0 1.0
+specularIntensity 0.1
+opacity 1.0
+
+// Textures and properties
+diffuseTexture data/clothes/textures/mono_white.png
+
+// Shader programme
+shader data/shaders/glsl/phong
+
+// Configure built-in shader defines
+shaderConfig diffuse true
+shaderConfig bump false
+shaderConfig normal false
+shaderConfig displacement false
+shaderConfig spec false
+shaderConfig vertexColors true

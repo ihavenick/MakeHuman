@@ -1,0 +1,65 @@
+#version 120
+
+/**
+ * Lit Sphere (spherically mapped captured light) shader.
+ * Has the effect of a specular material, shaded relative to the camera without
+ * lights.
+ * The normal is used as UV coordinates of the litsphere texture, which is a
+ * spherically shaped mapping of colors for all angles that normals can face in
+ * the half sphere facing the camera.
+**/
+
+#ifdef DIFFUSE
+    uniform sampler2D diffuseTexture;
+#endif
+
+#ifdef NORMALMAP
+    uniform sampler2D normalmapTexture;
+    uniform float normalScale = 1.0;
+    //define CALC_NORMAL_Z
+
+    // Inputs: tangent-space vector
+    varying vec3 tNormVec;
+#endif
+
+// Lit Sphere texture
+uniform sampler2D litsphereTexture;
+
+// Inputs
+varying vec3 vNormal;
+
+
+void main() {
+
+    #ifdef NORMALMAP
+        #ifdef CALC_NORMAL_Z
+            vec2 normalH = 0.5 * texture2D(normalmapTexture, gl_TexCoord[0].xy).rg;
+            vec3 normal;
+            normal.xy = (2.0 * normalH -1.0) * normalScale;
+            normal.z = sqrt(1.0 - dot(normal.xy, normal.xy));
+        #else
+            vec3 normalH = texture2D(normalmapTexture, gl_TexCoord[0].xy).rgb;
+            vec3 normal = (2.0 * normalH -1.0) * normalScale;
+        #endif
+
+        normal = normalize(vNormal + (tNormVec * normal));
+    #else
+        vec3 normal = vNormal;
+    #endif
+
+    vec3 shading = texture2D(litsphereTexture, vec2(normal.xyz * vec3(0.495) + vec3(0.5))).rgb;
+
+    #ifdef VERTEX_COLOR
+        shading = shading * gl_Color.rgb;
+    #endif
+
+    #ifdef DIFFUSE
+        vec3 diffuse = texture2D(diffuseTexture, gl_TexCoord[0].xy).rgb;
+        gl_FragColor.rgb = shading * diffuse * vec3(2.0 - (shading.r + shading.g + shading.b)/3);
+    #else
+        gl_FragColor.rgb = shading;
+    #endif
+
+    gl_FragColor.a = 1.0;
+}
+

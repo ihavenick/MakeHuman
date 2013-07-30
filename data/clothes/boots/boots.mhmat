@@ -1,0 +1,33 @@
+# Material definition for MakeHuman boots
+
+name BootsMaterial
+
+// Color shading attributes
+ambientColor 1.0 1.0 1.0
+diffuseColor 0.0204 0.0071 0.0076
+diffuseIntensity 0.8
+specularColor 1.0 1.0 1.0
+specularIntensity 0.956
+opacity 1.0
+
+// These blender-specific properties were in the original mhclo but are currently not used
+// If they serve a purpuse, maybe they should be put in a separate .mhx blender material file
+//diffuse_shader LAMBERT
+//specular_shader COOKTORR
+
+// Textures and properties
+diffuseTexture boots_texture.png
+transparencymapTexture boots_mask.png
+transparencymapIntensity 1.0
+
+// Shader programme
+shader data/shaders/glsl/phong
+
+// Configure built-in shader defines
+shaderConfig diffuse true
+shaderConfig bump false
+shaderConfig normal false
+shaderConfig displacement false
+shaderConfig spec false
+shaderConfig vertexColors true
+

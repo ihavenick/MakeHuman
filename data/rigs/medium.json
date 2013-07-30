@@ -1,0 +1,13 @@
+{
+    "name" : "Medium",
+
+    "description" : "A medium-complicated rig.\nSome features only work with mhx export.",
+
+    "settings" : {
+        "useSplitBones" : true,
+        "useMuscles" : true,
+        "mergePalms" : true
+    }
+}
+
+

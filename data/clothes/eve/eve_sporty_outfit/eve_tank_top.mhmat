@@ -1,0 +1,26 @@
+# Material definition for MakeHuman eve tank top
+
+name Eve_TankTopMaterial
+
+// Color shading attributes
+ambientColor 1.0 1.0 1.0
+diffuseColor 0.8000 0.0000 0.6032
+diffuseIntensity 0.8
+specularColor 1.0 1.0 1.0
+specularIntensity 0.01
+opacity 1.0
+
+// Textures and properties
+diffuseTexture data/clothes/textures/mono_pink.png
+
+// Shader programme
+shader data/shaders/glsl/phong
+
+// Configure built-in shader defines
+shaderConfig diffuse true
+shaderConfig bump false
+shaderConfig normal false
+shaderConfig displacement false
+shaderConfig spec false
+shaderConfig vertexColors true
+

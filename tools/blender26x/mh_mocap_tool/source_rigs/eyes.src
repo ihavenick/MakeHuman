@@ -1,0 +1,29 @@
+#
+# Eyes Japan 
+#	bone	 MHX bone	twist
+
+Name:	Eyes Japan
+
+Armature:
+	hips		hips		0
+	lefthip		thigh.L		0
+	leftknee	shin.L		0
+	leftankle	foot.L		0
+	righthip	thigh.R		0
+	rightknee	shin.R		0
+	rightankle	foot.R		0
+	spine-1		spine		0
+	chest2		spine-1		0
+	cs_bvh		chest		0
+	leftcollar	shoulder.L	0
+	leftshoulder	upper_arm.L		90
+	leftelbow	forearm.L		90
+	leftwrist	hand.L		90
+	rightcollar	shoulder.R	0
+	rightshoulder	upper_arm.R		-90
+	rightelbow	forearm.R		-90
+	rightwrist	hand.R		-90
+	neck		neck		0
+	head		head		0
+
+

@@ -1,0 +1,65 @@
+# Mega 
+#	bone	 	MHX bone	twist	
+
+Name:	Mega
+
+Armature:
+	hip		hips		0 
+	abdomen		spine		0
+	chest		chest		0
+	neck		neck		0
+	head		head		0 
+	left eye	None		0
+	right eye	None		0
+	hair		None		0
+
+	left collar	shoulder.L	0
+	left shoulder	upper_arm.L		0 
+	left forearm	forearm.L		0
+	left hand	hand.L		0
+	left thumb 1	None		0 
+	left thumb 2	None		0 
+	left thumb 3	None		0 
+	left index 1	None		0 
+	left index 2	None		0 
+	left index 3	None		0 
+	left mid 1	None		0 
+	left mid 2	None		0 
+	left mid 3	None		0 
+	left ring 1	None		0 
+	left ring 2	None		0 
+	left ring 3	None		0 
+	left pinky 1	None		0 
+	left pinky 2	None		0 
+	left pinky 3	None		0 
+
+	right collar	shoulder.R	0
+	right shoulder	upper_arm.R		0 
+	right forearm	forearm.R		0
+	right hand	hand.R		0
+	right thumb 1	None		0 
+	right thumb 2	None		0 
+	right thumb 3	None		0 
+	right index 1	None		0 
+	right index 2	None		0 
+	right index 3	None		0 
+	right mid 1	None		0 
+	right mid 2	None		0 
+	right mid 3	None		0 
+	right ring 1	None		0 
+	right ring 2	None		0 
+	right ring 3	None		0 
+	right pinky 1	None		0 
+	right pinky 2	None		0 
+	right pinky 3	None		0 
+
+	left thigh	thigh.L		0
+	left shin	shin.L		0 
+	left foot	foot.L		0 
+	left toe	toe.L		0
+
+	right thigh	thigh.R		0
+	right shin	shin.R		0 
+	right foot	foot.R		0 
+	right toe	toe.R		0
+

@@ -1,0 +1,38 @@
+#
+# ACCAD 
+#	www.accad.Accad.edu/research/mocap/mocap_data.htm
+#
+#	bone	 	MHX bone	twist
+
+Name:	Vicon_Blade
+
+Armature:
+	root		hips		0
+	lowerback	spine		0
+	thorax		chest		0 
+	neck		neck		0 
+	head		head		0 
+
+	l_collar	shoulder.L	0
+	l_humerus	upper_arm.L		0 
+	l_elbow		forearm.L		0
+	l_wrist		hand.L		0 
+	l_thumb		thumb.02.L	0
+	l_wrist_end	thumb.03.L	0
+
+	r_collar	shoulder.R	0
+	r_humerus	upper_arm.R		0 
+	r_elbow		forearm.R		0
+	r_wrist		hand.R		0
+	r_thumb		thumb.02.R	0
+	r_wrist_end	thumb.03.R	0
+
+	l_femur		thigh.L		0 
+	l_tibia		shin.L		0 
+	l_foot		foot.L		0 
+	l_toe		toe.L		0
+
+	r_femur		thigh.R		0
+	r_tibia		shin.R		0 
+	r_foot		foot.R		0 
+	r_toe		toe.R		0

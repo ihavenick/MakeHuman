@@ -1,0 +1,50 @@
+# Example MakeHuman material file
+# This line is a comment and is ignored by the parser
+// This line is ignored as well
+
+name MaterialName
+
+// Color shading attributes
+ambientColor 1.0 0.0 0.0
+diffuseColor 1.0 1.0 1.0
+diffuseIntensity 1.0
+specularColor 1.0 1.0 0.0
+specularIntensity 0.5
+specularHardness 0.8
+emissiveColor 0.0 0.0 0.4
+opacity 1.0
+translucency 1.0
+
+// Define built-in textures and properties
+diffuseTexture data/textures/texture.png
+bumpmapTexture data/textures/bump.png
+bumpmapIntensity 1.0
+normalmapTexture data/textures/normal.jpg
+normalmapIntensity 1.0
+displacementmapTexture data/textures/disp.png
+displacementmapIntensity 1.0
+specularmapTexture data/textures/texture_ref.png
+specularmapIntensity 1.0
+
+// Choose a shader programme
+shader data/shaders/glsl/normalmap
+
+// Define custom uniform values to pass to supporting shaders
+shaderParam litsphereTexture data/litspheres/skinmat.png
+shaderParam customColor 1.0 0.0 0.5
+shaderParam customScale 0.6
+shaderParam customQuadVect 0.1 0.2 0.3 0.4
+
+// Configure built-in shader defines
+shaderConfig diffuse true
+shaderConfig bump false
+shaderConfig normal true
+shaderConfig displacement true
+shaderConfig spec true
+shaderConfig vertexColors true
+
+// Set custom shader defines
+shaderDefine INVERT_NORMAL
+
+// Set a UV map
+uvMap data/uvs/a7.obj

@@ -1,0 +1,34 @@
+# Perfume 
+#	bone	 	MHX bone	twist
+
+Name:	Perfume
+
+Armature:
+	hips		hips		0
+	chest1		spine		0
+	chest2		spine-1		0
+	chest3		chest		0 
+	chest4		chest-1		0
+	neck		neck		0 
+	head		head		0 
+
+	leftcollar	shoulder.L	0
+	leftshoulder	upper_arm.L		0 
+	leftelbow	forearm.L		0
+	leftwrist	hand.L		0 
+
+	rightcollar	shoulder.R	0
+	rightshoulder	upper_arm.R		0 
+	rightelbow	forearm.R		0
+	rightwrist	hand.R		0
+
+	lefthip		thigh.L		0 
+	leftknee	shin.L		0 
+	leftankle	foot.L		0 
+	lefttoe		toe.L		0
+
+	righthip	thigh.R		0
+	rightknee	shin.R		0 
+	rightankle	foot.R		0 
+	righttoe	toe.R		0
+

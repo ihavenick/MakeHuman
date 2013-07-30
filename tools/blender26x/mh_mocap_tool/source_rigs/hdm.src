@@ -1,0 +1,42 @@
+# HDM 
+#	bone	 MHX bone	twist
+
+Name:	HDM
+
+Armature:
+	hip		hips		0
+	lhipjoint	None		0
+	lfemur		thigh.L		-20
+	ltibia		shin.L		-20
+	lfoot		foot.L		-20
+	ltoes		toe.L		-20
+	
+	rhipjoint	None		0
+	rfemur		thigh.R		20
+	rtibia		shin.R		20
+	rfoot		foot.R		20
+	rtoes		toe.R		20
+	
+	lowerback	spine		0
+	upperback	spine-1		0
+	thorax		chest		0
+	lowerneck	LowerNeck	0
+	upperneck	neck		0
+	head		head		0
+	
+	lclavicle	shoulder.L	0
+	lhumerus	upper_arm.L		0
+	lradius		forearm.L		0
+	lwrist		Hand0_L		0
+	lhand		hand.L		0
+	lfingers	None		0
+	lthumb		thumb.02.L	0
+	
+	rclavicle	shoulder.R	0
+	rhumerus	upper_arm.R		0
+	rradius		forearm.R		0
+	rwrist		Hand0_R		0
+	rhand		hand.R		0
+	rfingers	None		0
+	rthumb		thumb.02.R	0
+

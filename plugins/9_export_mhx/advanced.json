@@ -1,0 +1,20 @@
+{
+    "name" : "Advanced",
+
+    "description" : "An advanced rig intended for rendered applications.\nIt has muscle bones and corrective shapekeys.\nSome features only work with mhx export or not at all.",
+
+    "settings" : {
+        "useMasterBone" : true,
+        "useHeadControl" : true,
+        "useReverseHip" : true,
+        "useSplitBones" : true,
+        "useDeformBones" : true,
+        "useMuscles" : true,
+        "useIkArms" : true,
+        "useIkLegs" : true,
+        "useFingers" : true,
+        "useRotationLimits" : true
+    }
+}
+
+

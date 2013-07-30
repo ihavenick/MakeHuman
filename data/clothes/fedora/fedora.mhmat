@@ -1,0 +1,32 @@
+# Material definition for MakeHuman Fedora
+
+name FedoraMaterial
+
+// Color shading attributes
+ambientColor 1.0 1.0 1.0
+diffuseColor 0.0426 0.0557 0.2079
+diffuseIntensity 0.4667
+specularColor 1.0 1.0 0.0
+specularIntensity 0.0
+specularHardness 0.8
+emissiveColor 0.0 0.0 0.4
+opacity 1.0
+
+// Textures and properties
+diffuseTexture fedora_texture.png
+normalmapTexture fedora_normal.png
+normalmapIntensity 1.0
+displacementmapTexture fedora_displacement.png
+displacementmapIntensity 0.2
+
+// Shader programme
+shader data/shaders/glsl/normalmap
+
+// Configure built-in shader defines
+shaderConfig diffuse true
+shaderConfig bump false
+shaderConfig normal true
+shaderConfig displacement true
+shaderConfig spec true
+shaderConfig vertexColors true
+

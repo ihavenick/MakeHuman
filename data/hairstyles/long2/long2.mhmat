@@ -1,0 +1,43 @@
+# Material definition for MakeHuman long2 hair
+
+name Long2HairMaterial
+
+// Color shading attributes
+ambientColor 1.0 1.0 1.0
+diffuseColor 0.4 0.13 0.0
+diffuseIntensity 0.8
+specularIntensity 0.0
+specularHardness 1
+emissiveColor 0.0 0.0 0.4
+opacity 0
+
+// Textures and properties
+diffuseTexture long2_texture.png
+transparencymapIntensity 1.0
+
+// Shader programme
+shader data/shaders/glsl/phong
+
+// Configure built-in shader defines
+shaderConfig diffuse true
+shaderConfig bump false
+shaderConfig normal false
+shaderConfig displacement false
+shaderConfig spec false
+shaderConfig vertexColors true
+
+
+// Other parameters that were in mhclo
+// Not sure whether these were still valid
+//use_shadows 1
+//use_transparent_shadows 1
+//use_raytrace 1
+//use_transparency 1
+//alpha 0.0
+//specular_alpha 0.0
+//use_map_color_diffuse 1
+//use_map_alpha 1
+//use_alpha 1
+//diffuse_color_factor 1.0
+//alpha_factor 1.0
+
