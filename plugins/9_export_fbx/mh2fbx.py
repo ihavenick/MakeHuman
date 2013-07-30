@@ -54,7 +54,7 @@ def exportFbx(human, filepath, config):
     rawTargets = exportutils.collect.readTargets(human, config)
     filename = os.path.basename(filepath)
     name = config.goodName(os.path.splitext(filename)[0])
-    stuffs,amt = exportutils.collect.setupObjects(
+    rmeshes,amt = exportutils.collect.setupObjects(
         name,
         human,
         config=config,
@@ -72,35 +72,35 @@ def exportFbx(human, filepath, config):
     fbx_utils.setAbsolutePath(filepath)
     fbx_header.writeHeader(fp, filepath)
 
-    nVertexGroups,nShapes = fbx_deformer.getObjectCounts(stuffs)
-    fbx_header.writeObjectDefs(fp, stuffs, amt, config)
-    fbx_skeleton.writeObjectDefs(fp, stuffs, amt)
-    fbx_mesh.writeObjectDefs(fp, stuffs, amt, nShapes)
-    fbx_deformer.writeObjectDefs(fp, stuffs, amt)
+    nVertexGroups,nShapes = fbx_deformer.getObjectCounts(rmeshes)
+    fbx_header.writeObjectDefs(fp, rmeshes, amt, config)
+    fbx_skeleton.writeObjectDefs(fp, rmeshes, amt)
+    fbx_mesh.writeObjectDefs(fp, rmeshes, amt, nShapes)
+    fbx_deformer.writeObjectDefs(fp, rmeshes, amt)
     if config.useMaterials:
-        fbx_material.writeObjectDefs(fp, stuffs, amt)
-    #fbx_anim.writeObjectDefs(fp, stuffs, amt)
+        fbx_material.writeObjectDefs(fp, rmeshes, amt)
+    #fbx_anim.writeObjectDefs(fp, rmeshes, amt)
     fp.write('}\n\n')
 
-    fbx_header.writeObjectProps(fp, stuffs, amt)
+    fbx_header.writeObjectProps(fp, rmeshes, amt)
     if amt:
-        fbx_skeleton.writeObjectProps(fp, stuffs, amt)
-    fbx_mesh.writeObjectProps(fp, stuffs, amt, config)
-    fbx_deformer.writeObjectProps(fp, stuffs, amt)
+        fbx_skeleton.writeObjectProps(fp, rmeshes, amt)
+    fbx_mesh.writeObjectProps(fp, rmeshes, amt, config)
+    fbx_deformer.writeObjectProps(fp, rmeshes, amt)
     if config.useMaterials:
-        fbx_material.writeObjectProps(fp, stuffs, amt)
-    #fbx_anim.writeObjectProps(fp, stuffs, amt)
+        fbx_material.writeObjectProps(fp, rmeshes, amt)
+    #fbx_anim.writeObjectProps(fp, rmeshes, amt)
     fp.write('}\n\n')
 
     fbx_utils.startLinking()
-    fbx_header.writeLinks(fp, stuffs, amt)
+    fbx_header.writeLinks(fp, rmeshes, amt)
     if amt:
-        fbx_skeleton.writeLinks(fp, stuffs, amt)
-    fbx_mesh.writeLinks(fp, stuffs, amt)
-    fbx_deformer.writeLinks(fp, stuffs, amt)
+        fbx_skeleton.writeLinks(fp, rmeshes, amt)
+    fbx_mesh.writeLinks(fp, rmeshes, amt)
+    fbx_deformer.writeLinks(fp, rmeshes, amt)
     if config.useMaterials:
-        fbx_material.writeLinks(fp, stuffs, amt)
-    #fbx_anim.writeLinks(fp, stuffs, amt)
+        fbx_material.writeLinks(fp, rmeshes, amt)
+    #fbx_anim.writeLinks(fp, rmeshes, amt)
     fp.write('}\n\n')
 
     fbx_header.writeTakes(fp)

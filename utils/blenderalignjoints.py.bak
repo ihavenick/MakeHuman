@@ -90,7 +90,7 @@ def saveJointDeltas(path):
     try:
         fileDescriptor = open(path, "w")
     except:
-        print "Unable to open %s",(path)
+        print("Unable to open %s",(path))
         return  None
 
     for name in vertsGroupsNames:
@@ -105,7 +105,7 @@ def saveJointDeltas(path):
                 #index od base vert, index of joint vert, coord 0, coord1 and coord2 of the delta vector
                 fileDescriptor.write("%d %d %f %f %f\n" % (n, i, delta[0],delta[1],delta[2]))
         else:
-            print name, name.split('-')[0] 
+            print(name, name.split('-')[0]) 
             
     fileDescriptor.close()
     

@@ -30,64 +30,42 @@ import module3d
 
 from material import Material, Color
 
-# CStuff used by exportutils/collect. Will eventually be merged with RichMesh
-
-class CStuff:
-    def __init__(self, name, proxy, human):
-        self.name = os.path.basename(name)
-        self.proxy = proxy
-        self.human = human
-        self._richMesh = None
-        if proxy:
-            self.type = proxy.type
-            self.material = proxy.material
-            self.material.name = proxy.name + "Material"
-            texture = proxy.getActualTexture(human)
-            if texture is not None:
-                self.material.setDiffuseTexture(texture)
-        else:
-            self.type = None
-            self.material = human.material
-            self.material.name = self.name + "Material"
-
-    @property
-    def richMesh(self):
-        return self._richMesh
-
-    @richMesh.setter
-    def richMesh(self, newRichMesh):
-        self._richMesh = newRichMesh
-        if newRichMesh.material:
-            self.material = newRichMesh.material
-
-    def __repr__(self):
-        return "<CStuff %s %s mat %s>" % (self.name, self.type, self.material)
-
-
-class RichMesh:
+class RichMesh(object):
 
     def __init__(self, name, amt):
         self.name = os.path.basename(name)
+        self.type = None
         self.object = None
         self.weights = {}
         self.shapes = []
         self.armature = amt
         self.material = None
+        self._proxy = None
 
         self.vertexMask = None
         self.faceMask = None
         self.vertexMapping = None   # Maps vertex index of original object to the attached filtered object
 
 
-    def fromProxy(self, coords, texVerts, faceVerts, faceUvs, weights, shapes, scale=1.0):
-        obj = self.object = module3d.Object3D(self.name)
-        obj.setCoords(coords)
-        obj.setUVs(texVerts)
+    @property
+    def proxy(self):
+        return self._proxy
 
+    @proxy.setter
+    def proxy(self, newProxy):
+        self._proxy = newProxy
+        self.type = newProxy.type
+        if newProxy.material:
+            self.material = newProxy.material
+    
+    def fromProxy(self, coords, texVerts, faceVerts, faceUvs, weights, shapes, scale=1.0):
         for fv in faceVerts:
             if len(fv) != 4:
                 raise NameError("Mesh %s has non-quad faces and can not be handled by MakeHuman" % self.name)
 
+        obj = self.object = module3d.Object3D(self.name)
+        obj.setCoords(coords)
+        obj.setUVs(texVerts)
         obj.createFaceGroup("Full Object")
         obj.setFaces(faceVerts, faceUvs)
         self.weights = weights
@@ -147,6 +125,8 @@ def getRichMesh(obj, proxy, rawWeights, rawShapes, amt, scale=1.0):
         obj = proxy.getObject()
         weights = proxy.getWeights(rawWeights)
         shapes = proxy.getShapes(rawShapes, scale)
-        return RichMesh(proxy.name, amt).fromObject(obj, weights, shapes)
+        rmesh = RichMesh(proxy.name, amt).fromObject(obj, weights, shapes)
+        rmesh.proxy = proxy
+        return rmesh
     else:
         return RichMesh(obj.name, amt).fromObject(obj, rawWeights, rawShapes)

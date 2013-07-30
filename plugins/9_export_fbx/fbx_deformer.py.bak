@@ -32,31 +32,31 @@ from .fbx_utils import *
 #   Object definitions
 #--------------------------------------------------------------------
 
-def getObjectCounts(stuffs):
+def getObjectCounts(rmeshes):
     nVertexGroups = 0
-    for stuff in stuffs:
-        for weights in stuff.richMesh.weights:
+    for rmesh in rmeshes:
+        for weights in rmesh.weights:
             if weights:
                 nVertexGroups += 1
 
     nShapes = 0
-    for stuff in stuffs:
-        for key,shape in stuff.richMesh.shapes:
+    for rmesh in rmeshes:
+        for key,shape in rmesh.shapes:
             if shape:
                 nShapes += 1
 
     return nVertexGroups, nShapes
 
-def countObjects(stuffs, amt):
-    nVertexGroups, nShapes = getObjectCounts(stuffs)
+def countObjects(rmeshes, amt):
+    nVertexGroups, nShapes = getObjectCounts(rmeshes)
     if amt:
         return (nVertexGroups + 1 + 2*nShapes)
     else:
         return 2*nShapes
 
 
-def writeObjectDefs(fp, stuffs, amt):
-    nVertexGroups, nShapes = getObjectCounts(stuffs)
+def writeObjectDefs(fp, rmeshes, amt):
+    nVertexGroups, nShapes = getObjectCounts(rmeshes)
 
     if amt:
         fp.write(
@@ -83,24 +83,24 @@ def writeObjectDefs(fp, stuffs, amt):
 #   Object properties
 #--------------------------------------------------------------------
 
-def writeObjectProps(fp, stuffs, amt):
+def writeObjectProps(fp, rmeshes, amt):
     if amt:
-        writeBindPose(fp, stuffs, amt)
+        writeBindPose(fp, rmeshes, amt)
 
-        for stuff in stuffs:
-            name = getStuffName(stuff, amt)
+        for rmesh in rmeshes:
+            name = getRmeshName(rmesh, amt)
             writeDeformer(fp, name)
             for bone in amt.bones.values():
                 try:
-                    weights = stuff.richMesh.weights[bone.name]
+                    weights = rmesh.weights[bone.name]
                 except KeyError:
                     continue
                 writeSubDeformer(fp, name, bone, weights)
 
-    for stuff in stuffs:
-        name = getStuffName(stuff, amt)
-        if stuff.richMesh.shapes:
-            for sname,shape in stuff.richMesh.shapes:
+    for rmesh in rmeshes:
+        name = getRmeshName(rmesh, amt)
+        if rmesh.shapes:
+            for sname,shape in rmesh.shapes:
                 writeShapeGeometry(fp, name, sname, shape)
                 writeShapeDeformer(fp, name, sname)
                 writeShapeSubDeformer(fp, name, sname, shape)
@@ -210,10 +210,10 @@ def writeSubDeformer(fp, name, bone, weights):
     fp.write('    }\n')
 
 
-def writeBindPose(fp, stuffs, amt):
+def writeBindPose(fp, rmeshes, amt):
     id,key = getId("Pose::" + amt.name)
     nBones = len(amt.bones)
-    nMeshes = len(stuffs)
+    nMeshes = len(rmeshes)
 
     fp.write(
 '    Pose: %d, "%s", "BindPose" {\n' % (id, key)+
@@ -224,8 +224,8 @@ def writeBindPose(fp, stuffs, amt):
     startLinking()
     poseNode(fp, "Model::%s" % amt.name, amt.bindMatrix)
 
-    for stuff in stuffs:
-        name = getStuffName(stuff, amt)
+    for rmesh in rmeshes:
+        name = getRmeshName(rmesh, amt)
         poseNode(fp, "Model::%sMesh" % name, amt.bindMatrix)
 
     for bone in amt.bones.values():
@@ -248,11 +248,11 @@ def poseNode(fp, key, matrix):
 #   Links
 #--------------------------------------------------------------------
 
-def writeLinks(fp, stuffs, amt):
+def writeLinks(fp, rmeshes, amt):
 
     if amt:
-        for stuff in stuffs:
-            name = getStuffName(stuff, amt)
+        for rmesh in rmeshes:
+            name = getRmeshName(rmesh, amt)
 
             ooLink(fp, 'Deformer::%s' % name, 'Geometry::%s' % name)
             for bone in amt.bones.values():
@@ -264,10 +264,10 @@ def writeLinks(fp, stuffs, amt):
                 ooLink(fp, subdef, 'Deformer::%s' % name)
                 ooLink(fp, 'Model::%s' % bone.name, subdef)
 
-    for stuff in stuffs:
-        if stuff.richMesh.shapes:
-            name = getStuffName(stuff, amt)
-            for sname, shape in stuff.richMesh.shapes:
+    for rmesh in rmeshes:
+        if rmesh.shapes:
+            name = getRmeshName(rmesh, amt)
+            for sname, shape in rmesh.shapes:
                 deform = "Deformer::%s_%sShape" % (name, sname)
                 subdef = "SubDeformer::%s_%sShape" % (name, sname)
                 ooLink(fp, "Geometry::%s_%sShape" % (name, sname), subdef)

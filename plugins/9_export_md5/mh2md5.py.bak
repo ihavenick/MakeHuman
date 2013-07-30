@@ -71,7 +71,7 @@ def exportMd5(human, filepath, config):
     filename = os.path.basename(filepath)
     name = config.goodName(os.path.splitext(filename)[0])
 
-    stuffs,_amt = exportutils.collect.setupObjects(
+    rmeshes,_amt = exportutils.collect.setupObjects(
         name,
         human,
         config=config,
@@ -89,7 +89,7 @@ def exportMd5(human, filepath, config):
     f.write('MD5Version 10\n')
     f.write('commandline ""\n\n')
     f.write('numJoints %d\n' % numJoints)
-    f.write('numMeshes %d\n\n' % (len(stuffs)))
+    f.write('numMeshes %d\n\n' % (len(rmeshes)))
 
     f.write('joints {\n')
     # Hardcoded root joint
@@ -99,9 +99,9 @@ def exportMd5(human, filepath, config):
             writeBone(f, bone, human, config)
     f.write('}\n\n')
 
-    for stuffIdx, stuff in enumerate(stuffs):
-        # stuff.type: None is human, "Proxy" is human proxy, "Clothes" for clothing and "Hair" for hair
-        obj = stuff.richMesh.object
+    for rmeshIdx, rmesh in enumerate(rmeshes):
+        # rmesh.type: None is human, "Proxy" is human proxy, "Clothes" for clothing and "Hair" for hair
+        obj = rmesh.object
 
         obj.calcFaceNormals()
         obj.calcVertexNormals()
@@ -116,7 +116,7 @@ def exportMd5(human, filepath, config):
             numFaces = len(obj.r_faces)
 
         f.write('mesh {\n')
-        mat = stuff.material
+        mat = rmesh.material
         if mat.diffuseTexture:
             if config.useTexFolder:
                 tex = copyTexture(mat.diffuseTexture, human, config)
@@ -130,15 +130,15 @@ def exportMd5(human, filepath, config):
         if human.getSkeleton():
             bodyWeights = human.getVertexWeights()
 
-            if stuff.type:
+            if rmesh.type:
                 # Determine vertex weights for proxy
-                weights = skeleton.getProxyWeights(stuff.proxy, bodyWeights, obj)
+                weights = skeleton.getProxyWeights(rmesh.proxy, bodyWeights, obj)
             else:
                 # Use vertex weights for human body
                 weights = bodyWeights
                 # Account for vertices that are filtered out
-                if stuff.richMesh.vertexMapping != None:
-                    filteredVIdxMap = stuff.richMesh.vertexMapping
+                if rmesh.vertexMapping != None:
+                    filteredVIdxMap = rmesh.vertexMapping
                     weights2 = {}
                     for (boneName, (verts,ws)) in weights.items():
                         verts2 = []

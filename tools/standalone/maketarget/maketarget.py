@@ -215,7 +215,7 @@ def parseArguments(args):
         opts, args = getopt.getopt(args, "i:o:s:a:d:hv", ["help", "out=", "in=", "dir=", "intype=", "outtype=", "add=", "sub=", "verbose"])
     except getopt.GetoptError as err:
         # print help information and exit:
-        print(str(err)) # will print something like "option -g not recognized"
+        print((str(err))) # will print something like "option -g not recognized"
         usage()
         sys.exit(2)
 
@@ -431,13 +431,13 @@ def verboseDetailProcess():
     print("------")
     if inputDir:
         if inType == "obj":
-            print("  All OBJs from directory: %s"% inputDir)
+            print(("  All OBJs from directory: %s"% inputDir))
         else:
-            print("  All targets from directory: %s"% inputDir)
+            print(("  All targets from directory: %s"% inputDir))
     elif inputTarget:
-        print("  Target: %s"% inputTarget)
+        print(("  Target: %s"% inputTarget))
     elif inputObj:
-        print("  OBJ: %s"% inputObj)
+        print(("  OBJ: %s"% inputObj))
     else:
         print("  Only using base.obj as input.")
             
@@ -445,9 +445,9 @@ def verboseDetailProcess():
         print("\nExtra operations:")
         print("------------------")
         if len(targetsToAdd) >0:
-            print("  Add targets: %s"% ", ".join(targetsToAdd))
+            print(("  Add targets: %s"% ", ".join(targetsToAdd)))
         if len(targetsToSubtract) >0:
-            print("  Subtract targets: %s"% ", ".join(targetsToSubtract))
+            print(("  Subtract targets: %s"% ", ".join(targetsToSubtract)))
 
     print("\nOutput:")
     print("--------")
@@ -456,9 +456,9 @@ def verboseDetailProcess():
     else:
         print("  Output type: target")
     if inputDir:
-        print("  Output files: %s/*%s"% (inputDir, outputExtension))
+        print(("  Output files: %s/*%s"% (inputDir, outputExtension)))
     elif outputPath:
-        print("  Output to file: %s"% outputPath)
+        print(("  Output to file: %s"% outputPath))
     print("\n")
     
     
@@ -542,13 +542,13 @@ if __name__ == "__main__":
 
     ## for DEBUGging
     if DEBUG:
-        print("MakeTarget (v%s) (DEBUG)"% str(VERSION))
+        print(("MakeTarget (v%s) (DEBUG)"% str(VERSION)))
         main(sys.argv[1:])
         sys.exit()
     ###
 
     try:
-        print("MakeTarget (v%s)"% str(VERSION))
+        print(("MakeTarget (v%s)"% str(VERSION)))
         main(sys.argv[1:])
         print("All done")
         sys.exit()
@@ -566,6 +566,6 @@ if __name__ == "__main__":
         else:
             msg = str(e)
 
-        print("Error: "+msg)
+        print(("Error: "+msg))
         sys.exit(errorCode)
 

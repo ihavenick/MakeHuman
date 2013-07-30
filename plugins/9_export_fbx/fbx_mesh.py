@@ -27,13 +27,13 @@ from .fbx_utils import *
 #   Object definitions
 #--------------------------------------------------------------------
 
-def countObjects(stuffs, amt):
-    nMeshes = len(stuffs)
+def countObjects(rmeshes, amt):
+    nMeshes = len(rmeshes)
     return (nMeshes + 1)
 
 
-def writeObjectDefs(fp, stuffs, amt, nShapes):
-    nMeshes = len(stuffs)
+def writeObjectDefs(fp, rmeshes, amt, nShapes):
+    nMeshes = len(rmeshes)
 
     fp.write(
 '    ObjectType: "Geometry" {\n' +
@@ -56,10 +56,10 @@ def writeObjectDefs(fp, stuffs, amt, nShapes):
 #   Object properties
 #--------------------------------------------------------------------
 
-def writeObjectProps(fp, stuffs, amt, config):
-    for stuff in stuffs:
-        name = getStuffName(stuff, amt)
-        obj = stuff.richMesh.object
+def writeObjectProps(fp, rmeshes, amt, config):
+    for rmesh in rmeshes:
+        name = getRmeshName(rmesh, amt)
+        obj = rmesh.object
         writeGeometryProp(fp, name, obj, config)
         writeMeshProp(fp, name, obj)
 
@@ -290,9 +290,9 @@ def writeMeshProp(fp, name, obj):
 #   Links
 #--------------------------------------------------------------------
 
-def writeLinks(fp, stuffs, amt):
-    for stuff in stuffs:
-        name = getStuffName(stuff, amt)
+def writeLinks(fp, rmeshes, amt):
+    for rmesh in rmeshes:
+        name = getRmeshName(rmesh, amt)
         ooLink(fp, 'Model::%sMesh' % name, 'Model::RootNode')
         if amt:
             ooLink(fp, 'Model::%sMesh' % name, 'Model::%s' % amt.name)

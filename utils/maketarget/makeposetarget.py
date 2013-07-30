@@ -85,7 +85,7 @@ def doRotMorph(mFactor):
             obj.verts[pointIndex].co[1] = pointRotated[1]
             obj.verts[pointIndex].co[2] = pointRotated[2]
 
-    print("ROTATION TIME", time.time()-a)
+    print(("ROTATION TIME", time.time()-a))
 
     obj.update()
     Window.RedrawAll()
@@ -130,7 +130,7 @@ def saveRotTargets(targetFile):
     block.append(("Rot Axis: ", rotAxisLabel, 0, 30, "Rotation Axis"))
     Draw.PupBlock("Info", block)
     rotAxe = rotAxisLabel.val
-    print("ROTAXE",rotAxe)
+    print(("ROTAXE",rotAxe))
 
     for index, vert in enumerate(data.verts):
         sourceVertex = originalVerts[index]
@@ -216,16 +216,16 @@ def saveRotTargets(targetFile):
                     rotData[k] = [pointIndex]
 
             else:
-                print("Problem calculating theta: v1,v2 =",v1,v2)
+                print(("Problem calculating theta: v1,v2 =",v1,v2))
 
     try:
         fileDescriptor = open(targetFile,'w+')
     except:
-        print("Error in opening %s" %targetFile)
+        print(("Error in opening %s" %targetFile))
         return 0
     #Write info about rotation: index of verts of rot axis
     fileDescriptor.write("%i %i %s #Indices of axis verts and axis\n" % (axisVertsIdx1,axisVertsIdx2,rotAxe))
-    for angl, vertIndices in rotData.items():
+    for angl, vertIndices in list(rotData.items()):
         fileDescriptor.write("%f " % (angl))
         for vertIndex in vertIndices:
             fileDescriptor.write("%i " % (vertIndex))
@@ -257,7 +257,7 @@ def scaleRot(targetRotPath1):
     try:
         fileDescriptor = open(targetRotPath2,'w')
     except:
-        print("Error in opening %s" %targetRotPath2)
+        print(("Error in opening %s" %targetRotPath2))
         return 0
     #Write info about rotation: index of verts of rot axis
     fileDescriptor.write("%s %s %s #Indices of axis verts and axis\n" % (rotAxe[0],\
@@ -424,15 +424,15 @@ def saveScaleTargets(targetFile):
                         scaleData[s] = [index]
 
             else:
-                print("Problem calculating theta: v1,v2 =",v1,v2)
+                print(("Problem calculating theta: v1,v2 =",v1,v2))
 
     try:
         fileDescriptor = open(targetFile,'w+')
     except:
-        print("Error in opening %s" %targetFile)
+        print(("Error in opening %s" %targetFile))
         return 0
     fileDescriptor.write("%i %i #Indices of axis verts\n" % (axisVertsIdx1,axisVertsIdx2))
-    for scal, vertIndices in scaleData.items():
+    for scal, vertIndices in list(scaleData.items()):
         fileDescriptor.write("%.2f " % (scal))
         for vertIndex in vertIndices:
             fileDescriptor.write("%i " % (vertIndex))
@@ -446,7 +446,7 @@ def printVertsIndices():
     Window.EditMode(0)
     for v in data.verts:
         if v.sel == 1:
-            print("Index ", v.index)
+            print(("Index ", v.index))
     Window.EditMode(wem)
     Window.RedrawAll()
 
@@ -495,7 +495,7 @@ def loadInitialBaseCoords(path):
     try:
         fileDescriptor = open(path)
     except:
-        print("Error opening %s file"%(path))
+        print(("Error opening %s file"%(path)))
         return
     data = fileDescriptor.readline()
     vertsCoo = []

@@ -22,7 +22,7 @@ import sys
 def usage():
     print("")
     print("NAME")
-    print("    %s: a program to translate a  morph target from"%(sys.argv[0]))
+    print(("    %s: a program to translate a  morph target from"%(sys.argv[0])))
     print("    a mesh with topology 1 to a mesh with topology 2")
     print("    In order to have a correct conversion, the diff.data ")
     print("    must be build using a base mesh1 and base mesh2 very ")
@@ -31,7 +31,7 @@ def usage():
     print("    using a retopology tool, upon base mesh2.")
     print("")
     print("SYNOPSIS")
-    print("    %s [options]"%(sys.argv[0]))
+    print(("    %s [options]"%(sys.argv[0])))
     print("")
     print("OPTIONS:")
     print("    --build; build the database of differences to be used in conversion")

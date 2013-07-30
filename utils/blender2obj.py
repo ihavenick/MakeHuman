@@ -172,7 +172,7 @@ class Blender2obj:
         @param path: The path of wavefront obj to save
         """
 
-        print("Saving... %s"%(os.path.basename(path)))
+        print(("Saving... %s"%(os.path.basename(path))))
         a = time.time()
         exportedElements = 0
         fileDescriptor = open(path, "w")
@@ -200,9 +200,9 @@ class Blender2obj:
                     #uvIndex = 1
                     fileDescriptor.write("%i/%i " % (v.index+1,uvIndex))
                 fileDescriptor.write("\n")
-        print("Exported %d elements"%(exportedElements))
+        print(("Exported %d elements"%(exportedElements)))
 
-        print("Ungrouped elements: ", len(self.ungrouped))
+        print(("Ungrouped elements: ", len(self.ungrouped)))
         for e in self.ungrouped:
             fileDescriptor.write("f ")
             for i,v in enumerate(e.verts):
@@ -214,12 +214,12 @@ class Blender2obj:
 
 
         if len(self.ungrouped) != 0:
-            print("Warning! %i elements are not associated to a vertgroup!"%(len(self.ungrouped)))
+            print(("Warning! %i elements are not associated to a vertgroup!"%(len(self.ungrouped))))
             print("The ungrouped elements are selected in edit mode")
             for e in self.ungrouped:
                 for v in e.verts:
                     v.sel = 1
-        print("Exported in %s sec"%(time.time()-a))
+        print(("Exported in %s sec"%(time.time()-a)))
         
     def writeGroup(self,path):
         """

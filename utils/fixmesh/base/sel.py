@@ -9,7 +9,7 @@ ob = scn.objects.active
 me = ob.getData(0, 1)
 for v in me.verts:
 	if v.sel:
-		print(v.index)
+		print((v.index))
 
 
  

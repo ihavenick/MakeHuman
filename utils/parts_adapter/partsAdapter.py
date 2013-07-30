@@ -94,7 +94,7 @@ def readGroups():
         #open file vertgroups
         confDescriptor = open(vertgroups, "r")
     except:
-        print("Errore apertura file %s",(vertgroups))
+        print(("Errore apertura file %s",(vertgroups)))
         return  None
 
     linesConf   = confDescriptor.readlines()
@@ -163,7 +163,7 @@ def createTarget(file):
     try:
         fileDescriptor = open(dir_input+file, "r")
     except:
-        print("Errore apertura file %s",(file))
+        print(("Errore apertura file %s",(file)))
 
     #add max_vert entries
     for i in range (0, max_vert):
@@ -347,7 +347,7 @@ def saveTarget(file):
     try:
         fileDescriptor = open(dir_output+file, "w")
     except:
-        print("Error opening file %s",(file))
+        print(("Error opening file %s",(file)))
         return  None
     #save file target reading target struct
     for i in mesh_actual.getTarg():
@@ -377,7 +377,7 @@ def loadInitialBaseCoords(path):
     try:
         fileDescriptor = open(path)
     except:
-        print("Error opening %s file"%(path))
+        print(("Error opening %s file"%(path)))
         return
     data = fileDescriptor.readline()
     vertsCoo = []
@@ -416,7 +416,7 @@ if __name__ == '__main__' :
     Main function
     """
     if len(sys.argv) < 3:
-        print("Usage: " + sys.argv[0] + " input_dir output_dir") #Usage
+        print(("Usage: " + sys.argv[0] + " input_dir output_dir")) #Usage
         sys.exit()
 
     dir_input = sys.argv[1]
@@ -440,12 +440,12 @@ if __name__ == '__main__' :
     try:
         file_list = os.listdir(dir_input)
     except:
-        print("No such input directory %s" % (dir_input))
+        print(("No such input directory %s" % (dir_input)))
         sys.exit()
     try:
         os.listdir(dir_output)
     except:
-        print("No such output directory %s" % (dir_output))
+        print(("No such output directory %s" % (dir_output)))
         sys.exit()
         
     print("Preparing structures...")
@@ -465,7 +465,7 @@ if __name__ == '__main__' :
         try:
             f.index(".target") #check if is a target
             print()
-            print("Processing file %s [%d/%d]" % (f, cnt, total))
+            print(("Processing file %s [%d/%d]" % (f, cnt, total)))
             createTarget(f) #ceate target struct
             adapter()       #adapt groups
             saveTarget(f)   #save target

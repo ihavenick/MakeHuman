@@ -85,8 +85,8 @@ def checkTargets(path,prefix="part"):
                                 break
                         if not correspondenceOK:
                             numberOfNotMatched += 1
-                            print("Target %s not present"%(fName))
-    print("Groups without targets %i of %i"%(numberOfNotMatched,12*len(vertsGroups) ))
+                            print(("Target %s not present"%(fName)))
+    print(("Groups without targets %i of %i"%(numberOfNotMatched,12*len(vertsGroups) )))
 
            
 

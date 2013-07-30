@@ -27,12 +27,12 @@ from .fbx_utils import *
 #   Object definitions
 #--------------------------------------------------------------------
 
-def getObjectNumbers(stuffs):
-    nMaterials = len(stuffs)
+def getObjectNumbers(rmeshes):
+    nMaterials = len(rmeshes)
     nTextures = 0
     nImages = 0
-    for stuff in stuffs:
-        mat = stuff.material
+    for rmesh in rmeshes:
+        mat = rmesh.material
         if mat.diffuseTexture:
             nTextures += 2
             nImages += 1
@@ -54,13 +54,13 @@ def getObjectNumbers(stuffs):
     return nMaterials,nTextures,nImages
 
 
-def countObjects(stuffs, amt):
-    nMaterials,nTextures,nImages = getObjectNumbers(stuffs)
+def countObjects(rmeshes, amt):
+    nMaterials,nTextures,nImages = getObjectNumbers(rmeshes)
     return (nMaterials + nTextures + nImages)
 
 
-def writeObjectDefs(fp, stuffs, amt):
-    nMaterials,nTextures,nImages = getObjectNumbers(stuffs)
+def writeObjectDefs(fp, rmeshes, amt):
+    nMaterials,nTextures,nImages = getObjectNumbers(rmeshes)
 
     fp.write(
 """
@@ -155,11 +155,11 @@ def writeObjectDefs(fp, stuffs, amt):
 #   Object properties
 #--------------------------------------------------------------------
 
-def writeObjectProps(fp, stuffs, amt):
+def writeObjectProps(fp, rmeshes, amt):
 
-    for stuff in stuffs:
-        mat = stuff.material
-        writeMaterial(fp, stuff, amt)
+    for rmesh in rmeshes:
+        mat = rmesh.material
+        writeMaterial(fp, rmesh, amt)
         writeTexture(fp, mat.diffuseTexture, "DiffuseColor")
         writeTexture(fp, mat.specularMapTexture, "SpecularFactor")
         writeTexture(fp, mat.normalMapTexture, "Bump")
@@ -168,12 +168,12 @@ def writeObjectProps(fp, stuffs, amt):
         writeTexture(fp, mat.displacementMapTexture, "DisplacementFactor")
 
 
-def writeMaterial(fp, stuff, amt):
-    name = getStuffName(stuff, amt)
+def writeMaterial(fp, rmesh, amt):
+    name = getRmeshName(rmesh, amt)
     id,key = getId("Material::"+name)
     fp.write('    Material: %d, "%s", "" {' % (id, key))
 
-    mat = stuff.material
+    mat = rmesh.material
     fp.write(
 '        Version: 102\n' +
 '        ShadingModel: "phong"\n' +
@@ -238,13 +238,13 @@ def writeTexture(fp, filepath, channel):
 #   Links
 #--------------------------------------------------------------------
 
-def writeLinks(fp, stuffs, amt):
+def writeLinks(fp, rmeshes, amt):
 
-    for stuff in stuffs:
-        name = getStuffName(stuff, amt)
+    for rmesh in rmeshes:
+        name = getRmeshName(rmesh, amt)
         ooLink(fp, 'Material::%s' % name, 'Model::%sMesh' % name)
 
-        mat = stuff.material
+        mat = rmesh.material
         for filepath,channel in [
             (mat.diffuseTexture, "DiffuseColor"),
             (mat.diffuseTexture, "TransparencyFactor"),

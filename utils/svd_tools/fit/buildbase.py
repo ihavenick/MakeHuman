@@ -10,7 +10,7 @@ def load_targets(directory,vertices,lookup):
 	files.sort()
 	ntargets = len(files)
 	nvertices = len(vertices)
-	print(ntargets, "target files found !")
+	print((ntargets, "target files found !"))
 	raw_base = zeros((ntargets,nvertices,3))
 	itarg = 0
 	target_names = [os.path.splitext(f)[0] for f in files]
@@ -53,7 +53,7 @@ def make_base(raw_base,cut_off=1e-10):
 	ww = 1.0/sqrt(w[range:])
 	dim = u.shape[0]-range
 	W = _build_diag(ww)
-	print("Rank: ",dim)
+	print(("Rank: ",dim))
 	base = W*u.T[range:,:]*mrb
 	back = u[:,range:]*W*base
 	return base,back

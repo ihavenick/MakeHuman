@@ -46,7 +46,7 @@ def loadVertsCoo(path):
     try:
         fileDescriptor = open(path)
     except:
-        print('Error opening %s file' % path)
+        print(('Error opening %s file' % path))
         return
     verts = []
     faces = []
@@ -76,7 +76,7 @@ def loadFacesIndices(path):
     try:
         fileDescriptor = open(path)
     except:
-        print('Error opening %s file' % path)
+        print(('Error opening %s file' % path))
         return
 
     faces = []
@@ -272,9 +272,9 @@ def tessellate(faces, vertices):
 
     finalVertList = vertices + subdividedVerts
     finalFacesList = subdividedFaces
-    print("ORIGINAL VERTS: %i"%(len(vertices)))
-    print("VERTS ADDED BY SUBDIVISION: %i"%(len(subdividedVerts)))
-    print("TOTAL VERTICES ADDED %i"%len(finalVertList))
+    print(("ORIGINAL VERTS: %i"%(len(vertices))))
+    print(("VERTS ADDED BY SUBDIVISION: %i"%(len(subdividedVerts))))
+    print(("TOTAL VERTICES ADDED %i"%len(finalVertList)))
     return (finalFacesList, finalVertList)
 
 
@@ -303,7 +303,7 @@ def applyMorph(vertsList, targetPath):
     try:
         fileDescriptor = open(targetPath)
     except:
-        print('Unable to open %s', targetPath)
+        print(('Unable to open %s', targetPath))
         return
 
     for line in fileDescriptor:
@@ -345,7 +345,7 @@ def meshComparison(vertsList1, vertsList2, faces2, indexListPath = None):
         try:
             fileDescriptor = open(indexListPath)
         except:
-            print('Error opening %s file' % path)
+            print(('Error opening %s file' % path))
             return        
         for data in fileDescriptor:
             lineData = data.split()            
@@ -353,7 +353,7 @@ def meshComparison(vertsList1, vertsList2, faces2, indexListPath = None):
             indexList.append(i)
         fileDescriptor.close()
     else:
-        indexList = range(len(vertsList1))
+        indexList = list(range(len(vertsList1)))
 
     tess = subdivideObj(faces2, vertsList2, 2)  
 
@@ -391,7 +391,7 @@ def meshComparison(vertsList1, vertsList2, faces2, indexListPath = None):
 
     averageDist = dSum/len(vDistances)
 
-    print("Average distance %s %s = %s"%(mesh1,mesh2,averageDist))
+    print(("Average distance %s %s = %s"%(mesh1,mesh2,averageDist)))
     return averageDist
         
 
@@ -441,7 +441,7 @@ def saveData(vertsList1, vertsList2, faces2, dataPath, epsilon = 0.2):
     try:
         fileDescriptor = open(dataPath, 'w')
     except:
-        print('Unable to open %s'%(dataPath))
+        print(('Unable to open %s'%(dataPath)))
         return None
 
     #For each vert of new mesh we found the nearest verts of old one
@@ -512,7 +512,7 @@ def saveData(vertsList1, vertsList2, faces2, dataPath, epsilon = 0.2):
     try:
         fileDescriptor = open(dataPath+".delta", 'w')
     except:
-        print('Unable to open %s'%(dataPath))
+        print(('Unable to open %s'%(dataPath)))
         return None
 
     for delta in deltaVectors:
@@ -522,8 +522,8 @@ def saveData(vertsList1, vertsList2, faces2, dataPath, epsilon = 0.2):
             fileDescriptor.write('-1 \n')
     fileDescriptor.close()
 
-    print("Data saved in %s"%(dataPath))
-    print("Verts not linked with a epsilon radius of %f: %i"%(epsilon,notLinked))
+    print(("Data saved in %s"%(dataPath)))
+    print(("Verts not linked with a epsilon radius of %f: %i"%(epsilon,notLinked)))
 
 
 
@@ -574,7 +574,7 @@ def fitMesh(verts1, verts2, faces2, dataPath, targetPath=None):
     try:
         fileDescriptor = open(dataPath)
     except:
-        print('Unable to open %s'%(dataPath))
+        print(('Unable to open %s'%(dataPath)))
         return
 
     fileData =  fileDescriptor.readlines()
@@ -583,7 +583,7 @@ def fitMesh(verts1, verts2, faces2, dataPath, targetPath=None):
     try:
         fileDescriptor = open(dataPath+".delta")
     except:
-        print('Unable to open %s'%(dataPath))
+        print(('Unable to open %s'%(dataPath)))
         return
 
     fileDelta =  fileDescriptor.readlines()
@@ -658,7 +658,7 @@ def saveTestObj(faces, verts, objTestPath):
     try:
         fileDescriptor = open(objTestPath, 'w')
     except:
-        print('Unable to open %s'%(objTestPath))
+        print(('Unable to open %s'%(objTestPath)))
         return
 
     for v in verts:
@@ -668,7 +668,7 @@ def saveTestObj(faces, verts, objTestPath):
             fileDescriptor.write('f %i %i %i %i\n' % (f[0]+1, f[1]+1, f[2]+1, f[3]+1))
         if len(f) == 3:
             fileDescriptor.write('f %i %i %i\n' % (f[0]+1, f[1]+1, f[2]+1))
-    print("Saved a test obj in %s"%(objTestPath))
+    print(("Saved a test obj in %s"%(objTestPath)))
 
     fileDescriptor.close()
 
@@ -716,15 +716,15 @@ def convertFile(vertList1, vertList2, faces2, dataPath, originalVerts, converted
     else:
         #verts are modified by direct fitting
         #Because the target is from scratch it has the name assigned by convertedname variable
-        print("DEBUG-NAME",convertedName)
+        print(("DEBUG-NAME",convertedName))
         newTargetPath = os.path.join(convertDirectory, os.path.basename(convertedName))
         modifiedVerts = fitMesh(vertList1, vertList2, faces2, dataPath)
 
     if modifiedVerts:
         #If not target base, we assume to save the target for a mesh1 base.
         
-        print("Using datafile %s"%(dataPath))
-        print("Saved target as %s"%(convertedName))
+        print(("Using datafile %s"%(dataPath)))
+        print(("Saved target as %s"%(convertedName)))
 
         modifiedVertsIndices = []
         nVertsExported = 0
@@ -740,14 +740,14 @@ def convertFile(vertList1, vertList2, faces2, dataPath, originalVerts, converted
         try:
             fileDescriptor = open(newTargetPath, 'w')
         except:
-            print('Unable to open %s'%(newTargetPath))
+            print(('Unable to open %s'%(newTargetPath)))
             return None
 
         for data in modifiedVertsIndices:
             fileDescriptor.write('%d %f %f %f\n' % (data[0], data[1], data[2], data[3]))
         fileDescriptor.close()
 
-        print('Exported %d verts '%(nVertsExported))
+        print(('Exported %d verts '%(nVertsExported)))
     else:
         print("ERROR in fitting mesh, file not converted")
 

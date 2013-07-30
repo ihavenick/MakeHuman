@@ -40,7 +40,7 @@ import sys, os
 
 if __name__ == "__main__" and len(sys.argv) > 1:
     # Run commandline version
-    print("MakeTarget (v%s)"% str(maketarget.VERSION))
+    print(("MakeTarget (v%s)"% str(maketarget.VERSION)))
     
     ## for DEBUGging
     if DEBUG:
@@ -66,7 +66,7 @@ if __name__ == "__main__" and len(sys.argv) > 1:
         else:
             msg = str(e)
 
-        print("Error: "+msg)
+        print(("Error: "+msg))
         sys.exit(errorCode)
 else:
     # Import GUI dependencies
@@ -348,7 +348,7 @@ class MakeTargetGUI(wx.App):
         ## for DEBUGging
         if DEBUG:
             args.append("--verbose")
-            print("MakeTarget (v%s)"% str(maketarget.VERSION))
+            print(("MakeTarget (v%s)"% str(maketarget.VERSION)))
             maketarget.main(args)
             if self.progressWindow:
                 self.progressWindow.Destroy()

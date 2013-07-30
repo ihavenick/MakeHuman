@@ -37,7 +37,7 @@ def translLenght(path):
     try:
         fileDescriptor = open(path)
     except:
-        print('Error opening %s file' % path)
+        print(('Error opening %s file' % path))
         failedToOpen.append(path)
         return
     fullTransl = 0
@@ -74,10 +74,10 @@ def check_symm(path):
                 tPath2 = os.path.join(path, rightTarget)
                 if analyze_target(tPath1,tPath2) > theta:                    
                     #shutil.copyfile(os.path.join(path,os.path.basename(leftTarget)), os.path.join("../tmp2",os.path.basename(leftTarget)))
-                    print("-> %s"%(rightTarget))
+                    print(("-> %s"%(rightTarget)))
                     n += 1
-    print("Found %i problem in symmetric targets"%(n))
-    print("Found %i missed symmetric targets"%(len(failedToOpen)))
+    print(("Found %i problem in symmetric targets"%(n)))
+    print(("Found %i missed symmetric targets"%(len(failedToOpen))))
 
 #check_symm("/home/manuel/archive/archive_makehuman/makehuman_src/data/targets/details")
 

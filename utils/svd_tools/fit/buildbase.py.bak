@@ -10,7 +10,7 @@ def load_targets(directory,vertices,lookup):
 	files.sort()
 	ntargets = len(files)
 	nvertices = len(vertices)
-	print ntargets, "target files found !"
+	print(ntargets, "target files found !")
 	raw_base = zeros((ntargets,nvertices,3))
 	itarg = 0
 	target_names = [os.path.splitext(f)[0] for f in files]
@@ -53,7 +53,7 @@ def make_base(raw_base,cut_off=1e-10):
 	ww = 1.0/sqrt(w[range:])
 	dim = u.shape[0]-range
 	W = _build_diag(ww)
-	print "Rank: ",dim
+	print("Rank: ",dim)
 	base = W*u.T[range:,:]*mrb
 	back = u[:,range:]*W*base
 	return base,back
@@ -63,7 +63,7 @@ def read_vertices(list_file):
     vertices = [int(v) for v in f.readlines()]
     f.close()
     lookup = {}
-    for i in xrange(len(vertices)):
+    for i in range(len(vertices)):
         lookup[vertices[i]] = i
     return vertices,lookup
 
@@ -74,8 +74,8 @@ if __name__ == '__main__' :
 		directory = sys.argv[1]
 		list_file = sys.argv[2]
 	except IndexError :
-		print "usage: python buildbase.py <target_directory> <verts file with _vertices suffix> [<cut off>]"
-                print "example: python buildbase.py targetsdb head_vertices.dat 2"
+		print("usage: python buildbase.py <target_directory> <verts file with _vertices suffix> [<cut off>]")
+                print("example: python buildbase.py targetsdb head_vertices.dat 2")
 		sys.exit(-1)
 		
 	try : cutoff = float(sys.argv[3])
@@ -84,12 +84,12 @@ if __name__ == '__main__' :
 	base_file = list_file.replace("_vertices","_base")
 	vertices,lookup  = read_vertices(list_file)
 
-	print "Loading targets..."
+	print("Loading targets...")
 	rb,target_names = load_targets(directory,vertices,lookup)
-	print "Making base..."
+	print("Making base...")
 	base,back = make_base(rb,cutoff)
 	del rb
-	print "Saving base..."
+	print("Saving base...")
 	f = open(base_file,'w')
 	mmwrite(f,base)
 	f.close()

@@ -1039,8 +1039,8 @@ class Comments(dict):
         lines = tokenize.generate_tokens(INPUT.readline)
         for (token_type, token_string, start, end, line) in lines:
             if DEBUG:
-                print((token.tok_name)[token_type], token_string, start, \
-                    end, line)
+                print(((token.tok_name)[token_type], token_string, start, \
+                    end, line))
             (self.max_lineno, scol) = start
             (erow, ecol) = end
             if token_type in [tokenize.COMMENT, tokenize.NL]:

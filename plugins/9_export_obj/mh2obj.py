@@ -39,7 +39,7 @@ def exportObj(human, filepath, config=None):
     filename = os.path.basename(filepath)
     name = config.goodName(os.path.splitext(filename)[0])
 
-    stuffs,_amt = exportutils.collect.setupObjects(
+    rmeshes,_amt = exportutils.collect.setupObjects(
         name,
         human,
         config=config,
@@ -48,7 +48,7 @@ def exportObj(human, filepath, config=None):
         lashes=config.lashes,
         subdivide=config.subdivide)
 
-    objects = [stuff.richMesh.object for stuff in stuffs]
+    objects = [rmesh.richMesh.object for rmesh in rmeshes]
     wavefront.writeObjFile(filepath, objects, True, config)
 
     return

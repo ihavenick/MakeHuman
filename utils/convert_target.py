@@ -22,7 +22,7 @@ def convert_target(filename):
                     groups[group].append(int(co[0]) - 1)
     
     # Keep only unique vertex indices
-    for name, group in groups.items():
+    for name, group in list(groups.items()):
         groups[name] = list(set(group))
         #print name, len(groups[name])
         
@@ -41,7 +41,7 @@ def convert_target(filename):
     # Group target
     targetGroups = {}
         
-    for name, group in groups.items():
+    for name, group in list(groups.items()):
         targetGroup = {}
         for index in group:
             if index in target:
@@ -56,7 +56,7 @@ def convert_target(filename):
     compressedTarget = {}
         
     # Analyze target
-    for name, group in targetGroups.items():
+    for name, group in list(targetGroups.items()):
         #print name, len(group), len(groups[name])
         #if len(group) == len(groups[name]):
             x = [v[0] for v in list(group.values())]
@@ -72,22 +72,22 @@ def convert_target(filename):
             if len(group) == len(groups[name]):
                 if diffx < 0.00001 and diffy < 0.00001 and diffz < 0.00001:
                     compressedTarget[name] = (x[0], y[0], z[0])
-                    print(name, x[0], y[0], z[0])
+                    print((name, x[0], y[0], z[0]))
                 else:
                     for i in group:
                         compressedTarget[i] = target[i]
-                    print('%s is not compressible because not all vertices are moved by the same distance' % name)
+                    print(('%s is not compressible because not all vertices are moved by the same distance' % name))
             else:
                 for i in group:
                         compressedTarget[i] = target[i]
-                print('%s is not compressible because not all vertices are used' % name)
+                print(('%s is not compressible because not all vertices are used' % name))
                 
     # Write target
     filename2 = filename.replace('.target', '.target2')
     
     target2 = 'version 1.1\n'
     
-    for name, distance in compressedTarget.items():
+    for name, distance in list(compressedTarget.items()):
         target2 += "%s %f %f %f\n" % (name, distance[0], distance[1], distance[2])
     
     with open(filename2, 'wb') as f:
@@ -106,5 +106,5 @@ import sys
 if len(sys.argv) < 2:
   print("Usage: convert_target filename")
 else:
-	print("Converting %s" % (sys.argv[1]))
+	print(("Converting %s" % (sys.argv[1])))
 	convert_target(sys.argv[1])

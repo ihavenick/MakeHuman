@@ -57,7 +57,7 @@ def exportStlAscii(human, filepath, config, exportJoints = False):
     filename = os.path.basename(filepath)
     name = config.goodName(os.path.splitext(filename)[0])
 
-    stuffs,_amt = exportutils.collect.setupObjects(
+    rmeshes,_amt = exportutils.collect.setupObjects(
         name,
         human,
         config=config,
@@ -70,8 +70,8 @@ def exportStlAscii(human, filepath, config, exportJoints = False):
     solid = name.replace(' ','_')
     f.write('solid %s\n' % solid)
 
-    for stuff in stuffs:
-        obj = stuff.richMesh.object
+    for rmesh in rmeshes:
+        obj = rmesh.richMesh.object
 
         for fn,fv in enumerate(obj.fvert):
             f.write('facet normal %f %f %f\n' % tuple(obj.fnorm[fn]))
@@ -111,7 +111,7 @@ def exportStlBinary(human, filename, config, exportJoints = False):
     filename = os.path.basename(filepath)
     name = config.goodName(os.path.splitext(filename)[0])
 
-    stuffs,_amt = exportutils.collect.setupObjects(
+    rmeshes,_amt = exportutils.collect.setupObjects(
         name,
         human,
         config=config,
@@ -120,7 +120,7 @@ def exportStlBinary(human, filename, config, exportJoints = False):
         lashes=config.lashes,
         subdivide=config.subdivide)
 
-    # TL: should loop over stuff (clothes etc) but only do nude human for now.
+    # TL: should loop over rmesh (clothes etc) but only do nude human for now.
 
     f = open(filename, 'wb')
     f.write('\x00' * 80)

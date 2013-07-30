@@ -222,7 +222,7 @@ def buildScan2Mesh(path):
 
 def fitScan2Mesh(path):
     global message, regulFactor,fitVert1
-    print("Fitting using a regul = %f"%(regulFactor.val))
+    print(("Fitting using a regul = %f"%(regulFactor.val)))
     main_dir = os.path.dirname(path)
     #target_dir = os.path.join(main_dir,"targets_db")
     head_mesh = os.path.join(main_dir,"base_mesh.obj")
@@ -378,7 +378,7 @@ def applyPoseFromFolder(path, n=0):
 def scanReg(scan):
     global objToCOnvertPath
     objToCOnvertPath = os.path.basename(scan)
-    print("wavefront ",objToCOnvertPath)
+    print(("wavefront ",objToCOnvertPath))
     startEditing()
     (vertsM, facesM) = maketargetlib.scanRegistration(scan)
     #name = scan.split('\\')[-1].split('/')[-1]
@@ -397,7 +397,7 @@ def saveTarget(path):
     if saveOnlySelectedVerts.val:
         verticesTosave = getSelectedVertices()
     else:
-        verticesTosave = range(len(vertices))
+        verticesTosave = list(range(len(vertices)))
     if os.path.splitext(path)[1] == ".rot":
         maketargetlib.saveRotTargets(vertices, path, basePath,getSelectedVertices())
     else:
@@ -456,7 +456,7 @@ def processingTargetsSimple(path,mFactor):
         blendFile = os.path.join(targetDir,targetName+".blend")
         targetPath = os.path.join(targetDir,targetName)
         if os.path.isfile(targetPath):
-            print("Processing %s"%(targetName))
+            print(("Processing %s"%(targetName)))
             loadTarget(targetPath)
             applyTarget(mFactor)
             #it should do something here
@@ -478,7 +478,7 @@ def processingTargetsSimple2(path,mFactor):
         blendFile = os.path.join(targetDir,targetName+".blend")
         targetPath = os.path.join(targetDir,targetName)
         if os.path.isfile(targetPath):
-            print("Processing %s"%(targetName))
+            print(("Processing %s"%(targetName)))
             loadTarget(targetPath)
             applyTarget(mFactor)
 
@@ -520,7 +520,7 @@ def processingTargetsSymm(path,mFactor):
         targetNameNoExt = os.path.splitext(targetName)[0]
         targetPathSym = os.path.join(targetDir,targetNameNoExt+"-symm.target")
         if os.path.isfile(targetPath):
-            print("Processing %s"%(targetName))
+            print(("Processing %s"%(targetName)))
             loadTarget(targetPath)
             applyTarget(mFactor)
             symm(1,0)
@@ -541,7 +541,7 @@ def processingTargetsSaveSel(path):
         targetNameNoExt = os.path.splitext(targetName)[0]
         targetPathSym = os.path.join(targetDir,targetNameNoExt+"-symm.target")
         if os.path.isfile(targetPath):
-            print("Processing %s"%(targetName))
+            print(("Processing %s"%(targetName)))
             loadTarget(targetPath)
             applyTarget(1)            
             saveTarget(targetPath)
@@ -561,7 +561,7 @@ def loadVerticesFromFolder(path):
         blendFile = os.path.join(targetDir,targetName+".blend")
         targetPath = os.path.join(targetDir,targetName)
         if os.path.isfile(targetPath):
-            print("Processing %s"%(targetName))
+            print(("Processing %s"%(targetName)))
             loadSelVerts(targetPath)
 
 def processingTargets(path, processingType=3):

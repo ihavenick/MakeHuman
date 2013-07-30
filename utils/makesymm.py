@@ -42,7 +42,7 @@ def loadSymmData(path):
     try:
         fileDescriptor = open(path)
     except:
-        print('Error loading %s file' % path)        
+        print(('Error loading %s file' % path))        
         return    
     data = fileDescriptor.readlines()
     for targetData in data:
@@ -92,7 +92,7 @@ def fixAbnormalTargets(path):
                 fixedVector = [int(vectorData[0]), float(vectorData[1]),float(vectorData[2]),float(vectorData[3])]
                 fixedData.append(fixedVector)
             except:                
-                print("skipped index %i"%(int(vectorData[0])))         
+                print(("skipped index %i"%(int(vectorData[0]))))         
     fileDescriptor.close()
     
     #Overwrite the old corrupted target
@@ -119,8 +119,8 @@ def symmetrize(path):
         corruptedTarget2 = os.path.join("../tmp",os.path.basename(corruptedTarget))
         shutil.copyfile(corruptedTarget, corruptedTarget2)
         fixAbnormalTargets(corruptedTarget2)        
-    print("Found %i abnormal left targets (that affect right vertices)"%(len(corrupted)))
-    print("I've simmetrized %i left target"%(nTargets))
+    print(("Found %i abnormal left targets (that affect right vertices)"%(len(corrupted))))
+    print(("I've simmetrized %i left target"%(nTargets)))
 
 #symmetrize("/home/manuel/archive/archive_makehuman/makehuman_src/data/targets/microdetails")
 if len(sys.argv) < 2:

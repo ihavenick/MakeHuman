@@ -20,36 +20,36 @@ import getopt
 import sys
 
 def usage():
-    print""
-    print"NAME"
-    print"    %s: a program to translate a  morph target from"%(sys.argv[0])
-    print"    a mesh with topology 1 to a mesh with topology 2"
-    print"    In order to have a correct conversion, the diff.data "
-    print"    must be build using a base mesh1 and base mesh2 very "
-    print"    similar in shape (not in topology)"
-    print"    For this reason we assume the base mesh1 is done "
-    print"    using a retopology tool, upon base mesh2."
-    print""
-    print"SYNOPSIS"
-    print"    %s [options]"%(sys.argv[0])
-    print""
-    print"OPTIONS:"
-    print"    --build; build the database of differences to be used in conversion"
-    print"    --target path; to specify the target file to convert"
-    print"    --targetbase path; to specify the obj to be used as reference to save targets"
-    print"    --folder path; to specify the folder with all targets to convert"
-    print"    --mold path; to specify the mesh obj to be fitted to"
-    print"    --tofit path; to specify the obj to fit to the mold"
-    print"    --help; what you're looking at right now."
-    print"    --testObj: path; Save a subdivided version of the obj passes as argument"
-    print""
-    print"AUTHOR:"
-    print"    Manuel Bastioni (info@makehuman.org)"
-    print""
-    print"SEE ALSO:"
-    print"    MakeHuman web page:"
-    print"    http://www.makehuman.org"
-    print""
+    print("")
+    print("NAME")
+    print("    %s: a program to translate a  morph target from"%(sys.argv[0]))
+    print("    a mesh with topology 1 to a mesh with topology 2")
+    print("    In order to have a correct conversion, the diff.data ")
+    print("    must be build using a base mesh1 and base mesh2 very ")
+    print("    similar in shape (not in topology)")
+    print("    For this reason we assume the base mesh1 is done ")
+    print("    using a retopology tool, upon base mesh2.")
+    print("")
+    print("SYNOPSIS")
+    print("    %s [options]"%(sys.argv[0]))
+    print("")
+    print("OPTIONS:")
+    print("    --build; build the database of differences to be used in conversion")
+    print("    --target path; to specify the target file to convert")
+    print("    --targetbase path; to specify the obj to be used as reference to save targets")
+    print("    --folder path; to specify the folder with all targets to convert")
+    print("    --mold path; to specify the mesh obj to be fitted to")
+    print("    --tofit path; to specify the obj to fit to the mold")
+    print("    --help; what you're looking at right now.")
+    print("    --testObj: path; Save a subdivided version of the obj passes as argument")
+    print("")
+    print("AUTHOR:")
+    print("    Manuel Bastioni (info@makehuman.org)")
+    print("")
+    print("SEE ALSO:")
+    print("    MakeHuman web page:")
+    print("    http://www.makehuman.org")
+    print("")
     exit()
 
 

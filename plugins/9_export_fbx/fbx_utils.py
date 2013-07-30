@@ -89,11 +89,11 @@ def getTexturePath(filepath):
     return filepath, tex
 
 
-def getStuffName(stuff, amt):
-    if amt and stuff.name == "base.obj":
+def getRmeshName(rmesh, amt):
+    if amt and rmesh.name == "base.obj":
         return amt.name
     else:
-        return os.path.splitext(stuff.name)[0]
+        return os.path.splitext(rmesh.name)[0]
 
 #--------------------------------------------------------------------
 #   Write utils

@@ -132,7 +132,7 @@ def setupProxies(typename, name, human, rmeshes, richMesh, config, deleteGroups,
     import re    
 
     foundProxy = False
-    for proxy in list(config.getProxies().values()):
+    for proxy in config.getProxies().values():
         if proxy.type == typename:
             foundProxy = True
             deleteGroups += proxy.deleteGroups
@@ -234,7 +234,7 @@ def filterMesh(richMesh, deleteGroups, deleteVerts, eyebrows, lashes, useFaceMas
 
     weights = {}
     if richMesh.weights:
-        for (b, wts1) in list(richMesh.weights.items()):
+        for (b, wts1) in richMesh.weights.items():
             wts2 = []
             for (v1,w) in wts1:
                 if not killVerts[v1]:
@@ -245,7 +245,7 @@ def filterMesh(richMesh, deleteGroups, deleteVerts, eyebrows, lashes, useFaceMas
     if richMesh.shapes:
         for (name, morphs1) in richMesh.shapes:
             morphs2 = {}
-            for (v1,dx) in list(morphs1.items()):
+            for (v1,dx) in morphs1.items():
                 if not killVerts[v1]:
                     morphs2[newVerts[v1]] = dx
             shapes.append((name, morphs2))
@@ -277,6 +277,6 @@ def copy(frompath, topath):
     if frompath:
         try:
             shutil.copy(frompath, topath)
-        except (IOError, os.error) as why:
+        except (IOError, os.error), why:
             log.error("Can't copy %s" % str(why))
 

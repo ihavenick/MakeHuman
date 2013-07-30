@@ -21,12 +21,12 @@ def usage():
 def RiRotate(angle, x, y, z):
 
     if math.fabs(angle) > 0.001:
-        print("Rotate %0.2f %0.2f %0.2f %0.2f\n"% (angle, x, y, z))
+        print(("Rotate %0.2f %0.2f %0.2f %0.2f\n"% (angle, x, y, z)))
 
 
 def RiTranslate(dx, dy, dz):
     
-    print("Translate %0.2f %0.2f %0.2f\n"%(dx, dy, dz))
+    print(("Translate %0.2f %0.2f %0.2f\n"%(dx, dy, dz)))
 
  
 def AimZ(direction): 
@@ -104,14 +104,14 @@ def main():
     else:
         roll = 0.0;
 
-    print("position: %0.2f, %0.2f, %0.2f\n"% (pos[0], pos[1], pos[2]))
-    print("aim: %0.2f, %0.2f, %0.2f\n"%(aim[0], aim[1], aim[2]))
-    print("coneangle: %0.4f\n"%(coneangle))
-    print("roll: %0.2f\n\n"%(roll));
+    print(("position: %0.2f, %0.2f, %0.2f\n"% (pos[0], pos[1], pos[2])))
+    print(("aim: %0.2f, %0.2f, %0.2f\n"%(aim[0], aim[1], aim[2])))
+    print(("coneangle: %0.4f\n"%(coneangle)))
+    print(("roll: %0.2f\n\n"%(roll)));
 
     if coneangle != 0.0:
         fov = coneangle * 360.0 / math.pi
-        print("Projection \"perspective\" \"fov\" [%0.2f]\n"%(fov))
+        print(("Projection \"perspective\" \"fov\" [%0.2f]\n"%(fov)))
 
 
     dir[0] = aim[0] - pos[0]

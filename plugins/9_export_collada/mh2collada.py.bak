@@ -59,7 +59,7 @@ def exportCollada(human, filepath, config):
     name = config.goodName(os.path.splitext(filename)[0])
 
     rawTargets = exportutils.collect.readTargets(human, config)
-    stuffs,amt = exportutils.collect.setupObjects(
+    rmeshes,amt = exportutils.collect.setupObjects(
         name,
         human,
         config=config,
@@ -92,43 +92,43 @@ def exportCollada(human, filepath, config):
         '  </asset>\n' +
         '  <library_images>\n')
 
-    for stuff in stuffs:
-        writeImages(fp, stuff, config)
+    for rmesh in rmeshes:
+        writeImages(fp, rmesh, config)
 
     fp.write(
         '  </library_images>\n' +
         '  <library_effects>\n')
 
     gui3d.app.progress(0.1, text="Exporting effects")
-    for stuff in stuffs:
-        writeEffects(fp, stuff)
+    for rmesh in rmeshes:
+        writeEffects(fp, rmesh)
 
     fp.write(
         '  </library_effects>\n' +
         '  <library_materials>\n')
 
     gui3d.app.progress(0.2, text="Exporting materials")
-    for stuff in stuffs:
-        writeMaterials(fp, stuff)
+    for rmesh in rmeshes:
+        writeMaterials(fp, rmesh)
 
     fp.write(
         '  </library_materials>\n'+
         '  <library_controllers>\n')
 
     gui3d.app.progress(0.3, text="Exporting controllers")
-    for stuff in stuffs:
-        writeController(fp, stuff, amt, config)
+    for rmesh in rmeshes:
+        writeController(fp, rmesh, amt, config)
 
     fp.write(
         '  </library_controllers>\n'+
         '  <library_geometries>\n')
 
-    dt = 0.4/len(stuffs)
+    dt = 0.4/len(rmeshes)
     t = 0.4
-    for stuff in stuffs:
-        gui3d.app.progress(t, text="Exporting %s" % stuff.name)
+    for rmesh in rmeshes:
+        gui3d.app.progress(t, text="Exporting %s" % rmesh.name)
         t += dt
-        writeGeometry(fp, stuff, config)
+        writeGeometry(fp, rmesh, config)
 
     gui3d.app.progress(0.8, text="Exporting bones")
     fp.write(
@@ -155,8 +155,8 @@ def exportCollada(human, filepath, config):
         writeBone(fp, root, [0,0,0], 'layer="L1"', '    ', amt, config)
 
     gui3d.app.progress(0.9, text="Exporting nodes")
-    for stuff in stuffs:
-        writeNode(fp, "        ", stuff, amt, config)
+    for rmesh in rmeshes:
+        writeNode(fp, "        ", rmesh, amt, config)
 
     fp.write(
         '      </node>\n' +
@@ -178,8 +178,8 @@ def exportCollada(human, filepath, config):
 #   Write images
 #
 
-def writeImages(fp, stuff, config):
-    mat = stuff.material
+def writeImages(fp, rmesh, config):
+    mat = rmesh.material
     if mat.diffuseTexture:
         writeImage(fp, mat.diffuseTexture, config)
     if mat.specularMapTexture:
@@ -201,7 +201,7 @@ def writeImage(fp, filepath, config):
     if not filepath:
         return
     newpath = config.copyTextureToNewLocation(filepath)
-    print("Collada Image", filepath, newpath)
+    print "Collada Image", filepath, newpath
     texname = getTextureName(filepath)
     fp.write(
         '    <image id="%s" name="%s">\n' % (texname, texname) +
@@ -210,7 +210,7 @@ def writeImage(fp, filepath, config):
     )
 
 #
-#    writeEffects(fp, stuff):
+#    writeEffects(fp, rmesh):
 #
 
 def writeIntensity(fp, tech, intensity):
@@ -232,8 +232,8 @@ def writeTexture(fp, tech, filepath, color, intensity, s=1.0):
         '            </%s>\n' % tech)
 
 
-def writeEffects(fp, stuff):
-    mat = stuff.material
+def writeEffects(fp, rmesh):
+    mat = rmesh.material
     fp.write(
        '    <effect id="%s-effect">\n' % mat.name.replace(" ", "_") +
        '      <profile_COMMON>\n')
@@ -287,11 +287,11 @@ def writeSurfaceSampler(fp, filepath):
         '        </newparam>\n')
 
 #
-#    writeMaterials(fp, stuff):
+#    writeMaterials(fp, rmesh):
 #
 
-def writeMaterials(fp, stuff):
-    mat = stuff.material
+def writeMaterials(fp, rmesh):
+    mat = rmesh.material
     matname = mat.name.replace(" ", "_")
     fp.write(
         '    <material id="%s" name="%s">\n' % (matname, matname) +
@@ -299,57 +299,57 @@ def writeMaterials(fp, stuff):
         '    </material>\n')
 
 
-def writeController(fp, stuff, amt, config):
-    obj = stuff.richMesh.object
-    stuff.richMesh.calculateSkinWeights(amt)
+def writeController(fp, rmesh, amt, config):
+    obj = rmesh.object
+    rmesh.calculateSkinWeights(amt)
     nVerts = len(obj.coord)
     nUvVerts = len(obj.texco)
     nFaces = len(obj.fvert)
-    nWeights = len(stuff.richMesh.skinWeights)
+    nWeights = len(rmesh.skinWeights)
     nBones = len(amt.bones)
-    nShapes = len(stuff.richMesh.shapes)
+    nShapes = len(rmesh.shapes)
 
     fp.write('\n' +
-        '    <controller id="%s-skin">\n' % stuff.name +
-        '      <skin source="#%sMesh">\n' % stuff.name +
+        '    <controller id="%s-skin">\n' % rmesh.name +
+        '      <skin source="#%sMesh">\n' % rmesh.name +
         '        <bind_shape_matrix>\n' +
         '          1 0 0 0 \n' +
         '          0 0 -1 0 \n' +
         '          0 1 0 0 \n' +
         '          0 0 0 1 \n' +
         '        </bind_shape_matrix>\n' +
-        '        <source id="%s-skin-joints">\n' % stuff.name +
-        '          <IDREF_array count="%d" id="%s-skin-joints-array">\n' % (nBones,stuff.name) +
+        '        <source id="%s-skin-joints">\n' % rmesh.name +
+        '          <IDREF_array count="%d" id="%s-skin-joints-array">\n' % (nBones,rmesh.name) +
         '           ')
 
-    for bone in list(amt.bones.values()):
+    for bone in amt.bones.values():
         fp.write(' %s' % bone.name)
 
     fp.write('\n' +
         '          </IDREF_array>\n' +
         '          <technique_common>\n' +
-        '            <accessor count="%d" source="#%s-skin-joints-array" stride="1">\n' % (nBones,stuff.name) +
+        '            <accessor count="%d" source="#%s-skin-joints-array" stride="1">\n' % (nBones,rmesh.name) +
         '              <param type="IDREF" name="JOINT"></param>\n' +
         '            </accessor>\n' +
         '          </technique_common>\n' +
         '        </source>\n' +
-        '        <source id="%s-skin-weights">\n' % stuff.name +
-        '          <float_array count="%d" id="%s-skin-weights-array">\n' % (nWeights,stuff.name) +
+        '        <source id="%s-skin-weights">\n' % rmesh.name +
+        '          <float_array count="%d" id="%s-skin-weights-array">\n' % (nWeights,rmesh.name) +
         '           ')
 
-    for w in stuff.richMesh.skinWeights:
+    for w in rmesh.skinWeights:
         fp.write(' %s' % w[1])
 
     fp.write('\n' +
         '          </float_array>\n' +
         '          <technique_common>\n' +
-        '            <accessor count="%d" source="#%s-skin-weights-array" stride="1">\n' % (nWeights,stuff.name) +
+        '            <accessor count="%d" source="#%s-skin-weights-array" stride="1">\n' % (nWeights,rmesh.name) +
         '              <param type="float" name="WEIGHT"></param>\n' +
         '            </accessor>\n' +
         '          </technique_common>\n' +
         '        </source>\n' +
-        '        <source id="%s-skin-poses">\n' % stuff.name +
-        '          <float_array count="%d" id="%s-skin-poses-array">' % (16*nBones,stuff.name))
+        '        <source id="%s-skin-poses">\n' % rmesh.name +
+        '          <float_array count="%d" id="%s-skin-poses-array">' % (16*nBones,rmesh.name))
 
 
     """
@@ -366,7 +366,7 @@ def writeController(fp, stuff, amt, config):
 
     """
 
-    for bone in list(amt.bones.values()):
+    for bone in amt.bones.values():
         #bone.calcBindMatrix()
         mat = bone.bindMatrix
         mat = bone.getBindMatrixCollada()
@@ -379,22 +379,22 @@ def writeController(fp, stuff, amt, config):
     fp.write('\n' +
         '          </float_array>\n' +
         '          <technique_common>\n' +
-        '            <accessor count="%d" source="#%s-skin-poses-array" stride="16">\n' % (nBones,stuff.name) +
+        '            <accessor count="%d" source="#%s-skin-poses-array" stride="16">\n' % (nBones,rmesh.name) +
         '              <param type="float4x4"></param>\n' +
         '            </accessor>\n' +
         '          </technique_common>\n' +
         '        </source>\n' +
         '        <joints>\n' +
-        '          <input semantic="JOINT" source="#%s-skin-joints"/>\n' % stuff.name +
-        '          <input semantic="INV_BIND_MATRIX" source="#%s-skin-poses"/>\n' % stuff.name +
+        '          <input semantic="JOINT" source="#%s-skin-joints"/>\n' % rmesh.name +
+        '          <input semantic="INV_BIND_MATRIX" source="#%s-skin-poses"/>\n' % rmesh.name +
         '        </joints>\n' +
         '        <vertex_weights count="%d">\n' % nVerts +
-        '          <input offset="0" semantic="JOINT" source="#%s-skin-joints"/>\n' % stuff.name +
-        '          <input offset="1" semantic="WEIGHT" source="#%s-skin-weights"/>\n' % stuff.name +
+        '          <input offset="0" semantic="JOINT" source="#%s-skin-joints"/>\n' % rmesh.name +
+        '          <input offset="1" semantic="WEIGHT" source="#%s-skin-weights"/>\n' % rmesh.name +
         '          <vcount>\n' +
         '            ')
 
-    for wts in stuff.richMesh.vertexWeights:
+    for wts in rmesh.vertexWeights:
         fp.write('%d ' % len(wts))
 
     fp.write('\n' +
@@ -402,7 +402,7 @@ def writeController(fp, stuff, amt, config):
         '          <v>\n' +
         '           ')
 
-    for wts in stuff.richMesh.vertexWeights:
+    for wts in rmesh.vertexWeights:
         for pair in wts:
             fp.write(' %d %d' % pair)
 
@@ -414,42 +414,42 @@ def writeController(fp, stuff, amt, config):
 
     # Morph controller
 
-    if stuff.richMesh.shapes:
-        nShapes = len(stuff.richMesh.shapes)
+    if rmesh.shapes:
+        nShapes = len(rmesh.shapes)
 
         fp.write(
-            '    <controller id="%sMorph" name="%sMorph">\n' % (stuff.name, stuff.name)+
-            '      <morph source="#%sMesh" method="NORMALIZED">\n' % (stuff.name) +
-            '        <source id="%sTargets">\n' % (stuff.name) +
-            '          <IDREF_array id="%sTargets-array" count="%d">' % (stuff.name, nShapes))
+            '    <controller id="%sMorph" name="%sMorph">\n' % (rmesh.name, rmesh.name)+
+            '      <morph source="#%sMesh" method="NORMALIZED">\n' % (rmesh.name) +
+            '        <source id="%sTargets">\n' % (rmesh.name) +
+            '          <IDREF_array id="%sTargets-array" count="%d">' % (rmesh.name, nShapes))
 
-        for key,_ in stuff.richMesh.shapes:
-            fp.write(" %sMeshMorph_%s" % (stuff.name, key))
+        for key,_ in rmesh.shapes:
+            fp.write(" %sMeshMorph_%s" % (rmesh.name, key))
 
         fp.write(
             '        </IDREF_array>\n' +
             '          <technique_common>\n' +
-            '            <accessor source="#%sTargets-array" count="%d" stride="1">\n' % (stuff.name, nShapes) +
+            '            <accessor source="#%sTargets-array" count="%d" stride="1">\n' % (rmesh.name, nShapes) +
             '              <param name="IDREF" type="IDREF"/>\n' +
             '            </accessor>\n' +
             '          </technique_common>\n' +
             '        </source>\n' +
-            '        <source id="%sWeights">\n' % (stuff.name) +
-            '          <float_array id="%sWeights-array" count="%d">' % (stuff.name, nShapes))
+            '        <source id="%sWeights">\n' % (rmesh.name) +
+            '          <float_array id="%sWeights-array" count="%d">' % (rmesh.name, nShapes))
 
         fp.write(nShapes*" 0")
 
         fp.write('\n' +
             '        </float_array>\n' +
             '          <technique_common>\n' +
-            '            <accessor source="#%sWeights-array" count="%d" stride="1">\n' % (stuff.name, nShapes) +
+            '            <accessor source="#%sWeights-array" count="%d" stride="1">\n' % (rmesh.name, nShapes) +
             '              <param name="MORPH_WEIGHT" type="float"/>\n' +
             '            </accessor>\n' +
             '          </technique_common>\n' +
             '        </source>\n' +
             '        <targets>\n' +
-            '          <input semantic="MORPH_TARGET" source="#%sTargets"/>\n' % (stuff.name) +
-            '          <input semantic="MORPH_WEIGHT" source="#%sWeights"/>\n' % (stuff.name) +
+            '          <input semantic="MORPH_TARGET" source="#%sTargets"/>\n' % (rmesh.name) +
+            '          <input semantic="MORPH_WEIGHT" source="#%sWeights"/>\n' % (rmesh.name) +
             '        </targets>\n' +
             '      </morph>\n' +
             '    </controller>\n')
@@ -457,21 +457,21 @@ def writeController(fp, stuff, amt, config):
 
 
 #
-#    writeGeometry(fp, stuff, config):
+#    writeGeometry(fp, rmesh, config):
 #
 
-def writeGeometry(fp, stuff, config):
-    obj = stuff.richMesh.object
+def writeGeometry(fp, rmesh, config):
+    obj = rmesh.object
     nVerts = len(obj.coord)
     nUvVerts = len(obj.texco)
-    nWeights = len(stuff.richMesh.skinWeights)
-    nShapes = len(stuff.richMesh.shapes)
+    nWeights = len(rmesh.skinWeights)
+    nShapes = len(rmesh.shapes)
 
     fp.write('\n' +
-        '    <geometry id="%sMesh" name="%s">\n' % (stuff.name,stuff.name) +
+        '    <geometry id="%sMesh" name="%s">\n' % (rmesh.name,rmesh.name) +
         '      <mesh>\n' +
-        '        <source id="%s-Position">\n' % stuff.name +
-        '          <float_array count="%d" id="%s-Position-array">\n' % (3*nVerts,stuff.name) +
+        '        <source id="%s-Position">\n' % rmesh.name +
+        '          <float_array count="%d" id="%s-Position-array">\n' % (3*nVerts,rmesh.name) +
         '          ')
 
 
@@ -482,7 +482,7 @@ def writeGeometry(fp, stuff, config):
     fp.write('\n' +
         '          </float_array>\n' +
         '          <technique_common>\n' +
-        '            <accessor count="%d" source="#%s-Position-array" stride="3">\n' % (nVerts,stuff.name) +
+        '            <accessor count="%d" source="#%s-Position-array" stride="3">\n' % (nVerts,rmesh.name) +
         '              <param type="float" name="X"></param>\n' +
         '              <param type="float" name="Y"></param>\n' +
         '              <param type="float" name="Z"></param>\n' +
@@ -496,8 +496,8 @@ def writeGeometry(fp, stuff, config):
         obj.calcFaceNormals()
         nNormals = len(obj.fnorm)
         fp.write(
-            '        <source id="%s-Normals">\n' % stuff.name +
-            '          <float_array count="%d" id="%s-Normals-array">\n' % (3*nNormals,stuff.name) +
+            '        <source id="%s-Normals">\n' % rmesh.name +
+            '          <float_array count="%d" id="%s-Normals-array">\n' % (3*nNormals,rmesh.name) +
             '          ')
 
         for no in obj.fnorm:
@@ -507,7 +507,7 @@ def writeGeometry(fp, stuff, config):
         fp.write('\n' +
             '          </float_array>\n' +
             '          <technique_common>\n' +
-            '            <accessor count="%d" source="#%s-Normals-array" stride="3">\n' % (nNormals,stuff.name) +
+            '            <accessor count="%d" source="#%s-Normals-array" stride="3">\n' % (nNormals,rmesh.name) +
             '              <param type="float" name="X"></param>\n' +
             '              <param type="float" name="Y"></param>\n' +
             '              <param type="float" name="Z"></param>\n' +
@@ -518,8 +518,8 @@ def writeGeometry(fp, stuff, config):
     # UV coordinates
 
     fp.write(
-        '        <source id="%s-UV">\n' % stuff.name +
-        '          <float_array count="%d" id="%s-UV-array">\n' % (2*nUvVerts,stuff.name) +
+        '        <source id="%s-UV">\n' % rmesh.name +
+        '          <float_array count="%d" id="%s-UV-array">\n' % (2*nUvVerts,rmesh.name) +
         '           ')
 
 
@@ -529,7 +529,7 @@ def writeGeometry(fp, stuff, config):
     fp.write('\n' +
         '          </float_array>\n' +
         '          <technique_common>\n' +
-        '            <accessor count="%d" source="#%s-UV-array" stride="2">\n' % (nUvVerts,stuff.name) +
+        '            <accessor count="%d" source="#%s-UV-array" stride="2">\n' % (nUvVerts,rmesh.name) +
         '              <param type="float" name="S"></param>\n' +
         '              <param type="float" name="T"></param>\n' +
         '            </accessor>\n' +
@@ -539,38 +539,38 @@ def writeGeometry(fp, stuff, config):
     # Faces
 
     fp.write(
-        '        <vertices id="%s-Vertex">\n' % stuff.name +
-        '          <input semantic="POSITION" source="#%s-Position"/>\n' % stuff.name +
+        '        <vertices id="%s-Vertex">\n' % rmesh.name +
+        '          <input semantic="POSITION" source="#%s-Position"/>\n' % rmesh.name +
         '        </vertices>\n')
 
-    checkFaces(stuff, nVerts, nUvVerts)
-    #writePolygons(fp, stuff, config)
-    writePolylist(fp, stuff, config)
+    checkFaces(rmesh, nVerts, nUvVerts)
+    #writePolygons(fp, rmesh, config)
+    writePolylist(fp, rmesh, config)
 
     fp.write(
         '      </mesh>\n' +
         '    </geometry>\n')
 
-    for name,shape in stuff.richMesh.shapes:
-        writeShapeKey(fp, name, shape, stuff, config)
+    for name,shape in rmesh.shapes:
+        writeShapeKey(fp, name, shape, rmesh, config)
     return
 
 
-def writeShapeKey(fp, name, shape, stuff, config):
-    obj = stuff.richMesh.object
+def writeShapeKey(fp, name, shape, rmesh, config):
+    obj = rmesh.object
     nVerts = len(obj.coord)
 
     # Verts
 
     fp.write(
-        '    <geometry id="%sMeshMorph_%s" name="%s">\n' % (stuff.name, name, name) +
+        '    <geometry id="%sMeshMorph_%s" name="%s">\n' % (rmesh.name, name, name) +
         '      <mesh>\n' +
-        '        <source id="%sMeshMorph_%s-positions">\n' % (stuff.name, name) +
-        '          <float_array id="%sMeshMorph_%s-positions-array" count="%d">\n' % (stuff.name, name, 3*nVerts) +
+        '        <source id="%sMeshMorph_%s-positions">\n' % (rmesh.name, name) +
+        '          <float_array id="%sMeshMorph_%s-positions-array" count="%d">\n' % (rmesh.name, name, 3*nVerts) +
         '           ')
 
     target = np.array(obj.coord)
-    for n,dr in list(shape.items()):
+    for n,dr in shape.items():
         target[n] += np.array(dr)
     for co in target:
         loc = rotateLoc(co, config)
@@ -579,7 +579,7 @@ def writeShapeKey(fp, name, shape, stuff, config):
     fp.write('\n' +
         '          </float_array>\n' +
         '          <technique_common>\n' +
-        '            <accessor source="#%sMeshMorph_%s-positions-array" count="%d" stride="3">\n' % (stuff.name, name, nVerts) +
+        '            <accessor source="#%sMeshMorph_%s-positions-array" count="%d" stride="3">\n' % (rmesh.name, name, nVerts) +
         '              <param name="X" type="float"/>\n' +
         '              <param name="Y" type="float"/>\n' +
         '              <param name="Z" type="float"/>\n' +
@@ -590,13 +590,13 @@ def writeShapeKey(fp, name, shape, stuff, config):
     # Normals
     """
     fp.write(
-'        <source id="%sMeshMorph_%s-normals">\n' % (stuff.name, name) +
-'          <float_array id="%sMeshMorph_%s-normals-array" count="18">\n' % (stuff.name, name))
+'        <source id="%sMeshMorph_%s-normals">\n' % (rmesh.name, name) +
+'          <float_array id="%sMeshMorph_%s-normals-array" count="18">\n' % (rmesh.name, name))
 -0.9438583 0 0.3303504 0 0.9438583 0.3303504 0.9438583 0 0.3303504 0 -0.9438583 0.3303504 0 0 -1 0 0 1
     fp.write(
         '          </float_array>\n' +
         '          <technique_common>\n' +
-        '            <accessor source="#%sMeshMorph_%s-normals-array" count="6" stride="3">\n' % (stuff.name, name) +
+        '            <accessor source="#%sMeshMorph_%s-normals-array" count="6" stride="3">\n' % (rmesh.name, name) +
         '              <param name="X" type="float"/>\n' +
         '              <param name="Y" type="float"/>\n' +
         '              <param name="Z" type="float"/>\n' +
@@ -608,12 +608,12 @@ def writeShapeKey(fp, name, shape, stuff, config):
     # Polylist
 
     fp.write(
-        '        <vertices id="%sMeshMorph_%s-vertices">\n' % (stuff.name, name) +
-        '          <input semantic="POSITION" source="#%sMeshMorph_%s-positions"/>\n' % (stuff.name, name) +
+        '        <vertices id="%sMeshMorph_%s-vertices">\n' % (rmesh.name, name) +
+        '          <input semantic="POSITION" source="#%sMeshMorph_%s-positions"/>\n' % (rmesh.name, name) +
         '        </vertices>\n' +
         '        <polylist count="%d">\n' % len(obj.fvert) +
-        '          <input semantic="VERTEX" source="#%sMeshMorph_%s-vertices" offset="0"/>\n' % (stuff.name, name) +
-        #'          <input semantic="NORMAL" source="#%sMeshMorph_%s-normals" offset="1"/>\n' % (stuff.name, name) +
+        '          <input semantic="VERTEX" source="#%sMeshMorph_%s-vertices" offset="0"/>\n' % (rmesh.name, name) +
+        #'          <input semantic="NORMAL" source="#%sMeshMorph_%s-normals" offset="1"/>\n' % (rmesh.name, name) +
         '          <vcount>')
 
     for fv in obj.fvert:
@@ -640,17 +640,17 @@ def writeShapeKey(fp, name, shape, stuff, config):
 
 
 #
-#   writePolygons(fp, stuff, config):
-#   writePolylist(fp, stuff, config):
+#   writePolygons(fp, rmesh, config):
+#   writePolylist(fp, rmesh, config):
 #
 
-def writePolygons(fp, stuff, config):
-    obj = stuff.richMesh.object
+def writePolygons(fp, rmesh, config):
+    obj = rmesh.object
     fp.write(
         '        <polygons count="%d">\n' % len(obj.fvert) +
-        '          <input offset="0" semantic="VERTEX" source="#%s-Vertex"/>\n' % stuff.name +
-        '          <input offset="1" semantic="NORMAL" source="#%s-Normals"/>\n' % stuff.name +
-        '          <input offset="2" semantic="TEXCOORD" source="#%s-UV"/>\n' % stuff.name)
+        '          <input offset="0" semantic="VERTEX" source="#%s-Vertex"/>\n' % rmesh.name +
+        '          <input offset="1" semantic="NORMAL" source="#%s-Normals"/>\n' % rmesh.name +
+        '          <input offset="2" semantic="TEXCOORD" source="#%s-UV"/>\n' % rmesh.name)
 
     for fn,fverts in enumerate(obj.fvert):
         fuv = obj.fuvs[fn]
@@ -663,20 +663,20 @@ def writePolygons(fp, stuff, config):
         '        </polygons>\n')
     return
 
-def writePolylist(fp, stuff, config):
-    obj = stuff.richMesh.object
+def writePolylist(fp, rmesh, config):
+    obj = rmesh.object
     fp.write(
         '        <polylist count="%d">\n' % len(obj.fvert) +
-        '          <input offset="0" semantic="VERTEX" source="#%s-Vertex"/>\n' % stuff.name)
+        '          <input offset="0" semantic="VERTEX" source="#%s-Vertex"/>\n' % rmesh.name)
 
     if config.useNormals:
         fp.write(
-        '          <input offset="1" semantic="NORMAL" source="#%s-Normals"/>\n' % stuff.name +
-        '          <input offset="2" semantic="TEXCOORD" source="#%s-UV"/>\n' % stuff.name +
+        '          <input offset="1" semantic="NORMAL" source="#%s-Normals"/>\n' % rmesh.name +
+        '          <input offset="2" semantic="TEXCOORD" source="#%s-UV"/>\n' % rmesh.name +
         '          <vcount>')
     else:
         fp.write(
-        '          <input offset="1" semantic="TEXCOORD" source="#%s-UV"/>\n' % stuff.name +
+        '          <input offset="1" semantic="TEXCOORD" source="#%s-UV"/>\n' % rmesh.name +
         '          <vcount>')
 
     for fv in obj.fvert:
@@ -708,11 +708,11 @@ def writePolylist(fp, stuff, config):
     return
 
 #
-#   checkFaces(stuff, nVerts, nUvVerts):
+#   checkFaces(rmesh, nVerts, nUvVerts):
 #
 
-def checkFaces(stuff, nVerts, nUvVerts):
-    obj = stuff.richMesh.object
+def checkFaces(rmesh, nVerts, nUvVerts):
+    obj = rmesh.object
     for fn,fverts in enumerate(obj.fvert):
         for n,vn in enumerate(fverts):
             uv = obj.fuvs[fn][n]
@@ -723,20 +723,20 @@ def checkFaces(stuff, nVerts, nUvVerts):
     return
 
 
-def writeNode(fp, pad, stuff, amt, config):
+def writeNode(fp, pad, rmesh, amt, config):
 
     fp.write('\n' +
-        '%s<node id="%sObject" name="%s">\n' % (pad, stuff.name,stuff.name) +
+        '%s<node id="%sObject" name="%s">\n' % (pad, rmesh.name,rmesh.name) +
         '%s  <matrix sid="transform">\n' % pad +
         '%s    1 0 0 0\n' % pad +
         '%s    0 1 0 0\n' % pad +
         '%s    0 0 1 0\n' % pad +
         '%s    0 0 0 1\n' % pad +
         '%s  </matrix>\n' % pad +
-        '%s  <instance_controller url="#%s-skin">\n' % (pad, stuff.name) +
+        '%s  <instance_controller url="#%s-skin">\n' % (pad, rmesh.name) +
         '%s    <skeleton>#%sSkeleton</skeleton>\n' % (pad, amt.roots[0].name))
 
-    mat = stuff.material
+    mat = rmesh.material
     matname = mat.name.replace(" ", "_")
     fp.write(
         '%s    <bind_material>\n' % pad +

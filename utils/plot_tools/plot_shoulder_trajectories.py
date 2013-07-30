@@ -54,7 +54,7 @@ def printAngles(path,angles):
     try:
         fileDescriptor = open(path, 'w')
     except:
-        print('Impossible to save %s' % path)
+        print(('Impossible to save %s' % path))
     for angle in angles:
         fileDescriptor.write('%i,%i,%i\n' % (angle[0],angle[1],angle[2]))
         

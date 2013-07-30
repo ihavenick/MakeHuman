@@ -48,7 +48,7 @@ def exportOgreMesh(human, filepath, config):
     filename = os.path.basename(filepath)
     name = formatName(config.goodName(os.path.splitext(filename)[0]))
 
-    stuffs,_amt = exportutils.collect.setupObjects(
+    rmeshes,_amt = exportutils.collect.setupObjects(
         name,
         human,
         config=config,
@@ -57,13 +57,13 @@ def exportOgreMesh(human, filepath, config):
         lashes=config.lashes,
         subdivide=config.subdivide)
 
-    writeMeshFile(human, filepath, stuffs, config)
+    writeMeshFile(human, filepath, rmeshes, config)
     if human.getSkeleton():
         writeSkeletonFile(human, filepath, config)
-    writeMaterialFile(human, filepath, stuffs, config)
+    writeMaterialFile(human, filepath, rmeshes, config)
 
 
-def writeMeshFile(human, filepath, stuffs, config):
+def writeMeshFile(human, filepath, rmeshes, config):
     filename = os.path.basename(filepath)
     name = formatName(config.goodName(os.path.splitext(filename)[0]))
 
@@ -73,8 +73,8 @@ def writeMeshFile(human, filepath, stuffs, config):
     f.write('<mesh>\n')
     f.write('    <submeshes>\n')
 
-    for stuffIdx, stuff in enumerate(stuffs):
-        obj = stuff.richMesh.object
+    for rmeshIdx, rmesh in enumerate(rmeshes):
+        obj = rmesh.object
         # Make sure vertex normals are calculated
         obj.calcFaceNormals()
         obj.calcVertexNormals()
@@ -88,7 +88,7 @@ def writeMeshFile(human, filepath, stuffs, config):
             # Tris
             numFaces = len(obj.r_faces)
 
-        f.write('        <submesh material="%s_%s_%s" usesharedvertices="false" use32bitindexes="false" operationtype="triangle_list">\n' % (formatName(name), stuffIdx, formatName(stuff.name) if formatName(stuff.name) != name else "human"))
+        f.write('        <submesh material="%s_%s_%s" usesharedvertices="false" use32bitindexes="false" operationtype="triangle_list">\n' % (formatName(name), rmeshIdx, formatName(rmesh.name) if formatName(rmesh.name) != name else "human"))
 
         # Faces
         f.write('            <faces count="%s">\n' % numFaces)
@@ -132,15 +132,15 @@ def writeMeshFile(human, filepath, stuffs, config):
         # Skeleton bone assignments
         if human.getSkeleton():
             bodyWeights = human.getVertexWeights()
-            if stuff.type:
+            if rmesh.type:
                 # Determine vertex weights for proxy
-                weights = skeleton.getProxyWeights(stuff.proxy, bodyWeights, obj)
+                weights = skeleton.getProxyWeights(rmesh.proxy, bodyWeights, obj)
             else:
                 # Use vertex weights for human body
                 weights = bodyWeights
                 # Account for vertices that are filtered out
-                if stuff.richMesh.vertexMapping != None:
-                    filteredVIdxMap = stuff.richMesh.vertexMapping
+                if rmesh.vertexMapping != None:
+                    filteredVIdxMap = rmesh.vertexMapping
                     weights2 = {}
                     for (boneName, (verts,ws)) in weights.items():
                         verts2 = []
@@ -176,8 +176,8 @@ def writeMeshFile(human, filepath, stuffs, config):
 
     f.write('    </submeshes>\n')
     f.write('    <submeshnames>\n')
-    for stuffIdx, stuff in enumerate(stuffs):
-        f.write('        <submeshname name="%s" index="%s" />\n' % (formatName(stuff.name) if formatName(stuff.name) != name else "human", stuffIdx))
+    for rmeshIdx, rmesh in enumerate(rmeshes):
+        f.write('        <submeshname name="%s" index="%s" />\n' % (formatName(rmesh.name) if formatName(rmesh.name) != name else "human", rmeshIdx))
     f.write('    </submeshnames>\n')
 
     if human.getSkeleton():
@@ -227,19 +227,18 @@ def writeSkeletonFile(human, filepath, config):
     f.close()
 
 
-def writeMaterialFile(human, filepath, stuffs, config):
+def writeMaterialFile(human, filepath, rmeshes, config):
     folderpath = os.path.dirname(filepath)
     name = formatName(config.goodName(os.path.splitext(os.path.basename(filepath))[0]))
     filename = name + ".material"
     filepath = os.path.join(folderpath, filename)
 
     f = codecs.open(filepath, 'w', encoding="utf-8")
-    for stuffIdx, stuff in enumerate(stuffs):
-        texfolder, texfile = stuff.texture
-        texpath = os.path.join(texfolder, texfile)
-        if stuffIdx > 0:
+    for rmeshIdx, rmesh in enumerate(rmeshes):
+        texpath = rmesh.material.diffuseTexture
+        if rmeshIdx > 0:
             f.write('\n')
-        f.write('material %s_%s_%s\n' % (formatName(name), stuffIdx, formatName(stuff.name) if formatName(stuff.name) != name else "human"))
+        f.write('material %s_%s_%s\n' % (formatName(name), rmeshIdx, formatName(rmesh.name) if formatName(rmesh.name) != name else "human"))
         f.write('{\n')
         f.write('    receive_shadows on\n\n')
         f.write('    technique\n')
@@ -251,7 +250,7 @@ def writeMaterialFile(human, filepath, stuffs, config):
         f.write('            diffuse 0.8 0.8 0.8 1\n')
         f.write('            specular 0.1 0.1 0.1 1\n')
         f.write('            emissive 0 0 0\n\n')
-        if not stuff.type:
+        if not rmesh.type:
             # Enable transparency rendering on human
             f.write('            depth_write on\n')
             f.write('            alpha_rejection greater 128\n\n')

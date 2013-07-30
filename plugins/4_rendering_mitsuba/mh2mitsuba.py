@@ -502,7 +502,7 @@ def exportObj_TL(obj, filename):
 
     # Load all stuff to be rendered - mesh, clothes, polygon hair
 
-    stuffs,_amt = exportutils.collect.setupObjects("Mitsuba", gui3d.app.selectedHuman, helpers=False, hidden=False, eyebrows=False, lashes=False)
+    rmeshes,_amt = exportutils.collect.setupObjects("Mitsuba", gui3d.app.selectedHuman, helpers=False, hidden=False, eyebrows=False, lashes=False)
 
     # Write obj file
     # not is need mtl file. The material is created into Mitsuba .xml file
@@ -513,20 +513,20 @@ def exportObj_TL(obj, filename):
     f.write('# www.makehuman.org\n')
     #
 
-    for stuff in stuffs:
-        obj = stuff.richMesh.object
+    for rmesh in rmeshes:
+        obj = rmesh.object
         for co in obj.coord:
             f.write("v %.4f %.4f %.4f\n" % tuple(co))
 
-    for stuff in stuffs:
-        obj = stuff.richMesh.object
+    for rmesh in rmeshes:
+        obj = rmesh.object
         for uv in obj.texco:
             f.write("vt %.4f %.4f\n" % tuple(uv))
 
     nVerts = 1
     nTexCo = 1
-    for stuff in stuffs:
-        obj = stuff.richMesh.object
+    for rmesh in rmeshes:
+        obj = rmesh.object
         for fn,fv in enumerate(obj.fvert):
             fuv = obj.fuvs[fn]
             if fv[0] == fv[3]:

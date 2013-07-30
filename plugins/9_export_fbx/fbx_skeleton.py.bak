@@ -29,7 +29,7 @@ from .fbx_utils import *
 #   Object definitions
 #--------------------------------------------------------------------
 
-def countObjects(stuffs, amt):
+def countObjects(rmeshes, amt):
     if amt:
         nBones = len(amt.bones)
         return (2*nBones + 1)
@@ -37,8 +37,8 @@ def countObjects(stuffs, amt):
         return 0
 
 
-def writeObjectDefs(fp, stuffs, amt):
-    nModels = len(stuffs)
+def writeObjectDefs(fp, rmeshes, amt):
+    nModels = len(rmeshes)
     if amt:
         nBones = len(amt.bones)
         nModels += nBones + 1
@@ -146,7 +146,7 @@ def writeObjectDefs(fp, stuffs, amt):
 #   Object properties
 #--------------------------------------------------------------------
 
-def writeObjectProps(fp, stuffs, amt):
+def writeObjectProps(fp, rmeshes, amt):
     for bone in amt.bones.values():
         writeNodeAttributeProp(fp, bone)
     writeNodeProp(fp, amt)
@@ -218,7 +218,7 @@ def writeBoneProp(fp, bone):
 #   Links
 #--------------------------------------------------------------------
 
-def writeLinks(fp, stuffs, amt):
+def writeLinks(fp, rmeshes, amt):
 
     ooLink(fp, 'Model::%s' % amt.name, 'Model::RootNode')
 

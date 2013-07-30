@@ -128,7 +128,7 @@ class Mesh(object) :
 		for vt in self.uvcoords :
 			out+="vt %0.6f %0.6f\n"%tuple(vt)
 		
-		for gname,gr in self.groups.items() :
+		for gname,gr in list(self.groups.items()) :
 			if gname != "all_faces" :
 				out+="g %s\n"%gname
 			if gr.material is not None :

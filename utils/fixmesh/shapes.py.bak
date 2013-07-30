@@ -51,7 +51,7 @@ def exportAll():
 
 def importShape(name, me, ob):
 	fp = open(NewDir + name + ".target", "r")
-	print "parsing shape ", name
+	print("parsing shape ", name)
 	ob.insertShapeKey()
 	me.key.relative = True
 	block = me.key.blocks[-1]
@@ -66,7 +66,7 @@ def importShape(name, me, ob):
 
 def importVertGroup(grp, me):
 	fp = open(NewDir + grp + ".vgroup", "r")
-	print "parsing group ", grp
+	print("parsing group ", grp)
 	me.addVertGroup(grp)
 	for line in fp: 
 		val= line.split()
@@ -87,10 +87,10 @@ def importAll():
 		elif ext == '.vgroup':
 			importVertGroup(name, me)
 		else:
-			print "What? ", name, ext
+			print("What? ", name, ext)
 
 
-print "Starting"
+print("Starting")
 #exportAll()
 importAll()
-print "Done"
+print("Done")

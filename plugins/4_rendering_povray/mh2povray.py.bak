@@ -291,7 +291,7 @@ def povrayExportArray(obj, camera, path, settings):
 
     try:
         shutil.copy(groupingsFile, outputDirectory)
-    except (IOError, os.error) as why:
+    except (IOError, os.error), why:
         log.error("Can't copy %s" % str(why))
 
   # Job done
@@ -845,7 +845,7 @@ def getImageFname(name, file, type = None, getext = False):
     out = str(name)
     if type is not None:
         out += '_' + type
-    ext = os.path.splitext(file)[-1] if isinstance(file, str) else ".png"
+    ext = os.path.splitext(file)[-1] if isinstance(file, basestring) else ".png"
     if getext:
         return (out + ext, ext.lower()[1:])
     else:
@@ -860,7 +860,7 @@ def getImageDef(name, file, type = None):
     return ext + ' "' + out + '"'
 
 def copyTexture(tex, dst):
-    if isinstance(tex, str):
+    if isinstance(tex, basestring):
         shutil.copy(tex, dst)
     else:
         tex.save(dst)

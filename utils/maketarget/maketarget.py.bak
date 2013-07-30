@@ -157,7 +157,7 @@ def colorVertices(vertColors, n=0):
         for i, v in enumerate(f):
             col = f.col[i]
             col2 = vertColors[v.index]
-            print col2
+            print(col2)
             col.r = col2[0]
             col.g = col2[1]
             col.b = col2[2]
@@ -212,7 +212,7 @@ def buildScan2Mesh(path):
     target_dir = os.path.join(main_dir,"target_db_scan2mesh")
     if not os.path.isdir(target_dir):
         message = "The build folder must contain a 'target_db_scan2mesh' folder with the db"
-        print message
+        print(message)
         return
 
     head_mesh = os.path.join(main_dir,"base_mesh.obj")
@@ -222,7 +222,7 @@ def buildScan2Mesh(path):
 
 def fitScan2Mesh(path):
     global message, regulFactor,fitVert1
-    print "Fitting using a regul = %f"%(regulFactor.val)
+    print("Fitting using a regul = %f"%(regulFactor.val))
     main_dir = os.path.dirname(path)
     #target_dir = os.path.join(main_dir,"targets_db")
     head_mesh = os.path.join(main_dir,"base_mesh.obj")
@@ -236,7 +236,7 @@ def fitScan2Mesh(path):
         maketargetlib.scan2meshFit(head_mesh,head_mask,scan_mesh,scan_mask,fit_verts,prefix,output,regulFactor.val)
     else:
         message = "Error: head_vertices.dat not found!"
-        print message
+        print(message)
 
 
 def saveScanMask(path):
@@ -378,7 +378,7 @@ def applyPoseFromFolder(path, n=0):
 def scanReg(scan):
     global objToCOnvertPath
     objToCOnvertPath = os.path.basename(scan)
-    print "wavefront ",objToCOnvertPath
+    print("wavefront ",objToCOnvertPath)
     startEditing()
     (vertsM, facesM) = maketargetlib.scanRegistration(scan)
     #name = scan.split('\\')[-1].split('/')[-1]
@@ -397,7 +397,7 @@ def saveTarget(path):
     if saveOnlySelectedVerts.val:
         verticesTosave = getSelectedVertices()
     else:
-        verticesTosave = xrange(len(vertices))
+        verticesTosave = range(len(vertices))
     if os.path.splitext(path)[1] == ".rot":
         maketargetlib.saveRotTargets(vertices, path, basePath,getSelectedVertices())
     else:
@@ -412,7 +412,7 @@ def seekGroup():
     maketargetlib.seekGroupName(vertices, vertSelect, vertGroups)
 
 def saveGroups(path):
-    vertGroups  = getVertGroups().keys()
+    vertGroups  = list(getVertGroups().keys())
     vertGroups.sort()
     maketargetlib.saveGroups(vertGroups, path, "joint")
 
@@ -456,7 +456,7 @@ def processingTargetsSimple(path,mFactor):
         blendFile = os.path.join(targetDir,targetName+".blend")
         targetPath = os.path.join(targetDir,targetName)
         if os.path.isfile(targetPath):
-            print "Processing %s"%(targetName)
+            print("Processing %s"%(targetName))
             loadTarget(targetPath)
             applyTarget(mFactor)
             #it should do something here
@@ -478,7 +478,7 @@ def processingTargetsSimple2(path,mFactor):
         blendFile = os.path.join(targetDir,targetName+".blend")
         targetPath = os.path.join(targetDir,targetName)
         if os.path.isfile(targetPath):
-            print "Processing %s"%(targetName)
+            print("Processing %s"%(targetName))
             loadTarget(targetPath)
             applyTarget(mFactor)
 
@@ -520,7 +520,7 @@ def processingTargetsSymm(path,mFactor):
         targetNameNoExt = os.path.splitext(targetName)[0]
         targetPathSym = os.path.join(targetDir,targetNameNoExt+"-symm.target")
         if os.path.isfile(targetPath):
-            print "Processing %s"%(targetName)
+            print("Processing %s"%(targetName))
             loadTarget(targetPath)
             applyTarget(mFactor)
             symm(1,0)
@@ -541,7 +541,7 @@ def processingTargetsSaveSel(path):
         targetNameNoExt = os.path.splitext(targetName)[0]
         targetPathSym = os.path.join(targetDir,targetNameNoExt+"-symm.target")
         if os.path.isfile(targetPath):
-            print "Processing %s"%(targetName)
+            print("Processing %s"%(targetName))
             loadTarget(targetPath)
             applyTarget(1)            
             saveTarget(targetPath)
@@ -561,7 +561,7 @@ def loadVerticesFromFolder(path):
         blendFile = os.path.join(targetDir,targetName+".blend")
         targetPath = os.path.join(targetDir,targetName)
         if os.path.isfile(targetPath):
-            print "Processing %s"%(targetName)
+            print("Processing %s"%(targetName))
             loadSelVerts(targetPath)
 
 def processingTargets(path, processingType=3):
@@ -616,7 +616,7 @@ def loadSelVerts(path):
     endEditing()
 
 def loadSelVertsBase(path):
-    print "Loading verts to select"
+    print("Loading verts to select")
     mainDir = os.path.dirname(path)
     path = os.path.join(mainDir, "verts_to_fit.verts")#TODO: no hardcoded!
     startEditing()
