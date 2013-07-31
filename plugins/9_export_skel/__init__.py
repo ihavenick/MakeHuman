@@ -31,6 +31,7 @@ class ExporterSkel(Exporter):
         self.group = "rig"
         self.name = "Skeleton (skel)"
         self.filter = "Skeleton (*.skel)"
+        self.fileExtension = "skel"
 
     def build(self, options, taskview):
         pass

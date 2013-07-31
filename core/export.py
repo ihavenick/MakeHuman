@@ -19,7 +19,7 @@
 Abstract
 --------
 
-TODO
+Common base class for all exporters.
 """
 
 import os
@@ -31,6 +31,8 @@ import log
 class Exporter(object):
     def __init__(self):
         self.group = "mesh"
+        self.fileExtension = ""
+        self.filter = 'All Files (*.*)'
 
     def build(self, options, taskview):
         self.taskview       = taskview

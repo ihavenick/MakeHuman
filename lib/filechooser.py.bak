@@ -356,7 +356,7 @@ class MhmatFileLoader(FileHandler):
 
     def getPreview(self, filename):
         thumb = super(MhmatFileLoader, self).getPreview(filename)
-        print(("%s == %s" % (os.path.abspath(thumb), os.path.abspath(self.fileChooser.notFoundImage))))
+        print("%s == %s" % (os.path.abspath(thumb), os.path.abspath(self.fileChooser.notFoundImage)))
         if os.path.abspath(thumb) == os.path.abspath(self.fileChooser.notFoundImage):
             import material
             mat = material.fromFile(filename)

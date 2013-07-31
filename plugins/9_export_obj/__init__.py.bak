@@ -48,7 +48,7 @@ class ExporterOBJ(Exporter):
 
     def export(self, human, filename):
         from . import mh2obj
-        print(filename)
+        print filename
 
         mh2obj.exportObj(human, filename("obj"), ObjConfig(self))
 

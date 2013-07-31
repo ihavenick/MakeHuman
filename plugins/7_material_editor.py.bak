@@ -63,7 +63,7 @@ class ShaderTaskView(gui3d.TaskView):
 
         @self.shaderList.mhEvent
         def onClicked(item):
-            self.setShader(str(item.getUserData()))
+            self.setShader(unicode(item.getUserData()))
 
         self.loadSaveBox = self.addRightWidget(gui.GroupBox("Material file"))
         self.loadMaterialBtn = self.loadSaveBox.addWidget(gui.BrowseButton(), 0, 0)
@@ -237,9 +237,9 @@ class ShaderTaskView(gui3d.TaskView):
 
         for name in sorted(shaders):
             item = self.shaderList.addItem(name, data = os.path.join(dir, name))
-            if shaderName and str(shaderName) == item.text:
+            if shaderName and unicode(shaderName) == item.text:
                 item.setChecked(True) # TODO does not have the desired effect
-                path = str(item.getUserData())
+                path = unicode(item.getUserData())
                 self.listUniforms(path, self.human.mesh.material)
 
     def updateShaderConfig(self):
@@ -300,7 +300,7 @@ class ColorValue(gui.GroupBox):
         self.name = name
 
         self.widgets = []
-        for col in range(3):
+        for col in xrange(3):
             child = FloatValue(self, 0)
             self.addWidget(child, 0, col)
             self.widgets.append(child)
@@ -411,9 +411,9 @@ class UniformValue(gui.GroupBox):
             values = np.atleast_2d(values)
         rows, cols = values.shape
         self.widgets = []
-        for row in range(rows):
+        for row in xrange(rows):
             widgets = []
-            for col in range(cols):
+            for col in xrange(cols):
                 child = self.createWidget(values[row,col], row)
                 self.addWidget(child, row, col)
                 widgets.append(child)

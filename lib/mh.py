@@ -48,6 +48,7 @@ def setClearColor(r, g, b, a):
 
 def setCaption(caption):
     a=str(caption)
+    a=a + "Python 3"
     G.app.mainwin.setWindowTitle(a)
 
 def changeCategory(category):

@@ -52,6 +52,7 @@ class ExporterBVH(Exporter):
         self.group = "rig"
         self.name = "Biovision Hierarchy BVH"
         self.filter = "Biovision Hierarchy (*.bvh)"
+        self.fileExtension = "bvh"
 
     def build(self, options, taskview):
         self.taskview       = taskview

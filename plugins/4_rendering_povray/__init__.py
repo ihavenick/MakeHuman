@@ -123,7 +123,7 @@ class PovrayTaskView(gui3d.TaskView):
         #        
         @self.renderButton.mhEvent
         def onClicked(event):            
-            reload(mh2povray)  # Avoid having to close and reopen MH for every coding change (can be removed once testing is complete)
+            #reload(mh2povray)  # Avoid having to close and reopen MH for every coding change (can be removed once testing is complete)
             # it is necessary to put this code here, so that it is executed with the 'renderButton.event'
             if os.name == 'nt':
                 #

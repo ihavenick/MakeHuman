@@ -98,7 +98,7 @@ class TabsBase(Widget):
         if idx != None:
             # Update index list when inserting tabs at arbitrary positions
             newIdxList = {}
-            for tIdx, t in list(self._tabs_by_idx.items()):
+            for tIdx, t in self._tabs_by_idx.items():
                 if int(tIdx) >= idx:
                     t.idx += 1
                 newIdxList[t.idx] = t
@@ -176,7 +176,7 @@ class GroupBox(QtGui.QGroupBox, Widget):
         self.layout = QtGui.QGridLayout(self)
 
     def __str__(self):
-        return "%s - %s" % (type(self), str(self.title()))
+        return "%s - %s" % (type(self), unicode(self.title()))
 
     def addWidget(self, widget, row = None, column = 0, rowSpan = 1, columnSpan = 1, alignment = QtCore.Qt.Alignment(0)):
         # widget.setParent(self)
@@ -192,7 +192,7 @@ class GroupBox(QtGui.QGroupBox, Widget):
 
     @property
     def children(self):
-        return list(self.layout.itemAt(i).widget() for i in range(self.count()))
+        return list(self.layout.itemAt(i).widget() for i in xrange(self.count()))
 
     def count(self):
         return self.layout.count()
@@ -461,7 +461,7 @@ class ButtonBase(Widget):
         self.connect(self, QtCore.SIGNAL('clicked(bool)'), self._clicked)
 
     def getLabel(self):
-        return str(self.text())
+        return unicode(self.text())
 
     def setLabel(self, label):
         label = getLanguageString(label)
@@ -556,7 +556,7 @@ class ListItem(QtGui.QListWidgetItem):
 
     @property
     def text(self):
-        return str(super(ListItem, self).text())
+        return unicode(super(ListItem, self).text())
 
     def enableCheckbox(self):
         self.__hasCheckbox = True
@@ -689,7 +689,7 @@ class ListView(QtGui.QListWidget, Widget):
                               QtGui.QAbstractItemView.SingleSelection)
 
     def getItems(self):
-        return [ self.item(row) for row in range(self.count()) ]
+        return [ self.item(row) for row in xrange(self.count()) ]
 
     def clearSelection(self):
         super(ListView, self).clearSelection()
@@ -750,7 +750,7 @@ class TextEdit(QtGui.QLineEdit, Widget):
         self.setCursorPosition(len(text))
 
     def getText(self):
-        return str(super(TextEdit, self).text())
+        return unicode(super(TextEdit, self).text())
 
     def validateText(self, text):
         if self.__validator:
@@ -824,7 +824,7 @@ class DocumentEdit(QtGui.QTextEdit, Widget):
         self.insertPlainText(text)
 
     def getText(self):
-        return str(super(DocumentEdit, self).toPlainText())
+        return unicode(super(DocumentEdit, self).toPlainText())
 
 class ProgressBar(QtGui.QProgressBar, Widget):
     def __init__(self, visible=True):
@@ -880,7 +880,7 @@ class ShortcutEdit(QtGui.QLabel, Widget):
     def shortcutToLabel(self, mod, key):
         mod &= ~0x20000000 # Qt Bug #4022
         seq = QtGui.QKeySequence(key + mod)
-        s = str(seq.toString(QtGui.QKeySequence.NativeText))
+        s = unicode(seq.toString(QtGui.QKeySequence.NativeText))
         return s
 
     def onChanged(self, shortcut):
@@ -967,13 +967,13 @@ class StackedBox(QtGui.QStackedWidget, Widget):
 
     def _updateSize(self):
         if self.autoResize:
-            for i in range(self.count()):
+            for i in xrange(self.count()):
                 w = self.widget(i)
                 if w: w.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Ignored)
             w = self.widget(self.currentIndex())
             if w: w.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         else:
-            for i in range(self.count()):
+            for i in xrange(self.count()):
                 w = self.widget(i)
                 if w: w.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.layout().activate()
@@ -1100,7 +1100,7 @@ class FileEntryView(QtGui.QWidget, Widget):
 
     def _confirm(self, state = None):
         if len(self.edit.text()):
-            self.callEvent('onFileSelected', str(self.edit.text()))
+            self.callEvent('onFileSelected', unicode(self.edit.text()))
                 
     def onFocus(self, event):
         self.edit.setFocus()
@@ -1555,7 +1555,7 @@ class TableItem(QtGui.QTableWidgetItem):
 
     @property
     def text(self):
-        return str(self.text())
+        return unicode(self.text())
 
 class TableView(QtGui.QTableWidget, Widget):
     def __init__(self):

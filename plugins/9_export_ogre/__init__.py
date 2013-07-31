@@ -49,6 +49,7 @@ class ExporterOgre(Exporter):
         Exporter.__init__(self)
         self.name = "Ogre3D"
         self.filter = "Ogre3D Mesh XML (*.mesh.xml)"
+        self.fileExtension = "mesh.xml"
 
     def export(self, human, filename):
         from . import mh2ogre

@@ -101,7 +101,7 @@ class ExportTaskView(gui3d.TaskView):
                 log.error("Unknown export format selected!")
                 return
 
-            gui3d.app.prompt('Info', 'The mesh has been exported to %s.' % dir, 'OK', helpId='exportHelp')
+            gui3d.app.prompt('Info', u'The mesh has been exported to %s.' % dir, 'OK', helpId='exportHelp')
 
             mh.changeCategory('Modelling')
 
@@ -146,7 +146,7 @@ class ExportTaskView(gui3d.TaskView):
 
     def setFileExtension(self, extension, filter='All Files (*.*)'):
         self.fileentry.setFilter(filter)
-        path,ext = os.path.splitext(str(self.fileentry.edit.text()))
+        path,ext = os.path.splitext(unicode(self.fileentry.edit.text()))
         if ext:
             if extension:
                 self.fileentry.edit.setText("%s.%s" % (path, extension.lstrip('.')))

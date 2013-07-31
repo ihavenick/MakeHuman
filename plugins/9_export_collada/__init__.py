@@ -58,7 +58,7 @@ class ExporterCollada(Exporter):
         Exporter.__init__(self)
         self.name = "Collada (dae)"
         self.filter = "Collada (*.dae)"
-
+        self.fileExtension = "dae"
 
     def build(self, options, taskview):
         Exporter.build(self, options, taskview)

@@ -77,7 +77,7 @@ def povrayExport(settings):
             gui3d.app.statusPersist('Rendering complete')
             mh.removeTimer(povwatchTimer)
 
-    settings['name'] = string.replace(getHumanName(), " ", "_")
+    settings['name'] = str.replace(getHumanName(), " ", "_")
     log.message('POV-Ray Export of object: %s', settings['name'])
 
     camera = gui3d.app.modelCamera

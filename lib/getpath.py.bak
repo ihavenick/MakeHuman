@@ -49,17 +49,17 @@ def getPath(type = None):
             raise RuntimeError("Couldn't determine user folder")
 
         if typeStr == "exports":
-            path += "\\makehuman\\exports\\"
+            path += u"\\makehuman\\exports\\"
         elif typeStr == "models":
-            path += "\\makehuman\\models\\"
+            path += u"\\makehuman\\models\\"
         elif typeStr == "grab":
-            path += "\\makehuman\\grab\\"
+            path += u"\\makehuman\\grab\\"
         elif typeStr == "render":
-            path += "\\makehuman\\render\\"
+            path += u"\\makehuman\\render\\"
         elif typeStr == "scenes":
-            path += "\\makehuman\\scenes\\"
+            path += u"\\makehuman\\scenes\\"
         elif typeStr == "":
-            path += "\\makehuman\\"
+            path += u"\\makehuman\\"
         else:
             raise ValueError("Unknown value '%s' for getPath()!" % typeStr)
     else:
@@ -118,7 +118,7 @@ def commonprefix(paths, sep='/'):
     """
     from itertools import takewhile
     
-    bydirectorylevels = list(zip(*[p.split(sep) for p in paths]))
+    bydirectorylevels = zip(*[p.split(sep) for p in paths])
     return sep.join(x[0] for x in takewhile(_allnamesequal, bydirectorylevels))
 
 def isSubPath(subpath, path):

@@ -719,7 +719,7 @@ class MHApplication(gui3d.Application, mh.Application):
         mh.setCaption(caption.encode('utf8'))
 
     def setFilenameCaption(self, filename):
-        self.setCaption("MakeHuman r%s - [%s][*]" % (os.environ['SVNREVISION'], filename))
+        self.setCaption("MakeHuman")
 
     def setFileModified(self, modified):
         self.modified = modified

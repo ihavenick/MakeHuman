@@ -39,6 +39,7 @@ class ExporterSTL(Exporter):
         Exporter.__init__(self)
         self.name = "Stereolithography (stl)"
         self.filter = "Stereolithography (*.stl)"
+        self.fileExtension = "stl"
 
     def build(self, options, taskview):
         Exporter.build(self, options, taskview)

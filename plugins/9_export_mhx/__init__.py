@@ -75,7 +75,7 @@ class ExporterMHX(Exporter):
         Exporter.__init__(self)
         self.name = "Blender exchange (mhx)"
         self.filter = "Blender Exchange (*.mhx)"
-
+        self.fileExtension = "mhx"
 
     def build(self, options, taskview):
         self.taskview       = taskview

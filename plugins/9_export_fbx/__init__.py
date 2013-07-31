@@ -63,6 +63,7 @@ class ExporterFBX(Exporter):
         Exporter.__init__(self)
         self.name = "Filmbox (fbx)"
         self.filter = "Filmbox (*.fbx)"
+        self.fileExtension = "fbx"
 
     def build(self, options, taskview):
         Exporter.build(self, options, taskview)

@@ -1,0 +1,1 @@
+python C:\Python33\Tools\Scripts\2to3.py -w ./

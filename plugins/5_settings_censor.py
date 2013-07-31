@@ -40,7 +40,7 @@ class CensorTaskView(gui3d.TaskView):
         self.enableCensor = self.mouseBox.addWidget(gui.CheckBox("Enable", gui3d.app.settings.get('censor', False)))
         
         human = gui3d.app.selectedHuman
-
+        '''
         self.breastVertices = human.mesh.getVerticesForGroups(['l-torso-nipple', 'r-torso-nipple'])
         mesh = geometry3d.RectangleMesh(100, 100)
         self.breastCensorship = gui3d.app.addObject(gui3d.Object([0, 0, 9], mesh))
@@ -49,8 +49,8 @@ class CensorTaskView(gui3d.TaskView):
         mesh.setShadeless(True)
         mesh.setDepthless(True)
         mesh.priority = 80
-
-        self.genitalVertices = human.mesh.getVerticesForGroups(['pelvis-genital-area'])
+        '''
+        self.genitalVertices = human.mesh.getVerticesForGroups(['pelvis'])
         mesh = geometry3d.RectangleMesh(100, 100)
         self.genitalCensorship = gui3d.app.addObject(gui3d.Object([0, 0, 9], mesh))
         mesh.setColor([0, 0, 0, 255])
@@ -150,7 +150,7 @@ class CensorTaskView(gui3d.TaskView):
         self.updateCensor()
 
 def load(app):
-    return  # Disabled because currently not working
+    #return  # Disabled because currently not working
     category = app.getCategory('Settings')
     taskview = category.addTask(CensorTaskView(category))
 
