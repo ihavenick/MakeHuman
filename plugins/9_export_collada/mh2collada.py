@@ -201,7 +201,7 @@ def writeImage(fp, filepath, config):
     if not filepath:
         return
     newpath = config.copyTextureToNewLocation(filepath)
-    print("Collada Image", filepath, newpath)
+    print(("Collada Image", filepath, newpath))
     texname = getTextureName(filepath)
     fp.write(
         '    <image id="%s" name="%s">\n' % (texname, texname) +

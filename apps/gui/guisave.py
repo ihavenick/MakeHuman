@@ -37,14 +37,14 @@ class SaveTaskView(gui3d.TaskView):
         gui3d.TaskView.__init__(self, category, 'Save')
 
         modelPath = mh.getPath('models')
-
+            
         if os.path.isdir(modelPath):
              abcd=1
              del abcd
         else:
             os.mkdir(modelPath)
         self.fileentry = self.addTopWidget(gui.FileEntryView('Save'))
-        self.fileentry.setDirectory(modelPath)
+        self.fileentry.setDirectory(mh.getPath('models', True))
         self.fileentry.setFilter('MakeHuman Models (*.mhm)')
 
         self.selection_width = 1.2

@@ -32,7 +32,7 @@ import gui
 import module3d
 import log
 from collections import OrderedDict
-#import filechooser as fc
+import filechooser as fc
 
 import skeleton
 import skeleton_drawing
@@ -58,7 +58,7 @@ class SkeletonAction(gui3d.Action):
         return True
 
 def _getSkeleton(self):
-    #log.debug("Get skeleton %s %s" % (self, self._skeleton))
+    log.debug("Get skeleton %s %s" % (self, self._skeleton))
     if not self._skeleton:
         return None
     if self._skeleton.dirty:
